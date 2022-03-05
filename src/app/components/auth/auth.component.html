@@ -1,0 +1,44 @@
+<body> 
+    <p>
+    <mat-toolbar class="base">
+      <!--<span>SuperLists</span>-->
+      <img src="assets/resources/images/superlists-logo.svg" class="logo-img">
+    </mat-toolbar>
+  </p>
+
+  <div class="content" role="main">
+  
+    <mat-card class="card-color card-size card-align">
+        
+         <mat-card-title class="card-title-alig pt-1 pb-1">Ingresar</mat-card-title> 
+         <div [formGroup]="loginForm"> 
+ 
+             <div class="example-container margins">
+                 <mat-form-field appearance="fill">
+                 <mat-label class="label-field-color margins">Ingrese su email</mat-label>
+                 <input matInput placeholder="jose@ejemplo.com" formControlName="email" required> 
+                 <mat-error *ngIf="validEmail">{{getEmailErrorMessage()}}</mat-error> 
+                 </mat-form-field>
+             </div>
+     
+             <div class="example-container margins">
+                 <mat-form-field appearance="fill">
+                 <mat-label class="label-field-color">Ingrese su contraseña</mat-label>
+                 <input matInput placeholder="contraseña" formControlName="password" required>
+                 <mat-error *ngIf="validPassword">{{getPasswordErrorMessage()}}</mat-error> 
+                 </mat-form-field>
+             </div>
+         </div>
+ 
+ 
+         <mat-card-actions class="pt-1 pb-1"> 
+             <button mat-raised-button (click)="login()" [disabled]="!validEmail || !validPassword || isPristine">Iniciar sesion</button> 
+             <button mat-stroked-button>Crear cuenta</button> 
+         </mat-card-actions>
+    </mat-card>
+ 
+ </div>
+
+ 
+
+</body>
