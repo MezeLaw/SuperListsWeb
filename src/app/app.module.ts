@@ -15,12 +15,16 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './components/home/home.component';
+import { SignupComponent } from './components/signup/signup.component'; 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent, 
+    AuthComponent,
+    HomeComponent,
+    SignupComponent, 
   ],
   imports: [
     MatButtonModule,

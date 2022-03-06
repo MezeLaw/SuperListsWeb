@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { AuthServiceService } from './auth-service.service';
 
 
@@ -27,7 +28,7 @@ export interface LoginRequest {
 export class AuthComponent implements OnInit {
   
   loginForm!: FormGroup; 
-  constructor(private fb: FormBuilder, private authService : AuthServiceService, private _snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private authService : AuthServiceService, private _snackBar: MatSnackBar, private router : Router, private route : ActivatedRoute) {
     this.createLoginForm();
   } 
 
@@ -43,19 +44,45 @@ export class AuthComponent implements OnInit {
 
   login(){
     
-    const loginRequest: LoginRequest = { email: "mezequielabogado@gmail.com", password: "passwordx" };
+
+    const email = this.loginForm.get('email')?.value
+    const password = this.loginForm.get('password')?.value
+
+    if (email == null || password == null ) {
+      this._snackBar.open("Ingrese sus credenciales", "Cerrar", {
+        duration: 7000,
+        panelClass: 'red-snackbar'
+      })
+    } 
+    const loginRequest: LoginRequest = { email: email, password: password};
    
+    console.log("Email recibido: ", email)
+    console.log("Contraseña recibida: ", password)
 
     this.authService.login(loginRequest).
-    subscribe(apiResponse => { 
-      console.log("API RESPONSE>")
+    subscribe(apiResponse => {  
       console.log(apiResponse)
+      localStorage.setItem ('token', apiResponse.token);
     },  (err:HttpErrorResponse)=>{
+
+      console.log("Status code es: ", err.status)
+
       if (err.status == 401) {
-        this._snackBar.open("Email o password incorrectas", "Cerrar", {
+        this._snackBar.open("Email o contraseña incorrectas", "Cerrar", {
           duration: 7000,
           panelClass: 'red-snackbar'
         });
+      }  
+      else if(err.status == 404 ){
+        this._snackBar.open("Usuario no registrado", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
       }
     });
   }
@@ -85,6 +112,10 @@ export class AuthComponent implements OnInit {
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
+  }
+
+  signUp(){ 
+    this.router.navigate(['signup']);
   }
 
 }

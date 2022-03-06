@@ -10,8 +10,17 @@
   
     <mat-card class="card-color card-size card-align">
         
-         <mat-card-title class="card-title-alig pt-1 pb-1">Ingresar</mat-card-title> 
-         <div [formGroup]="loginForm"> 
+         <mat-card-title class="card-title-alig pt-1 pb-1">Registro</mat-card-title> 
+         <div [formGroup]="signUpForm"> 
+
+            <div class="example-container margins">
+                <mat-form-field appearance="fill">
+                <mat-label class="label-field-color margins">Ingrese su nombre y apellido o apodo</mat-label>
+                <input matInput placeholder="jose@ejemplo.com" formControlName="email" required> 
+                <mat-error *ngIf="validEmail">{{getNameErrorMessage()}}</mat-error> 
+                </mat-form-field>
+            </div>
+
  
              <div class="example-container margins">
                  <mat-form-field appearance="fill">
@@ -32,8 +41,8 @@
  
  
          <mat-card-actions class="pt-1 pb-1"> 
-             <button mat-raised-button (click)="login()" [disabled]="!validEmail || !validPassword || isPristine">Iniciar sesion</button> 
-             <button mat-stroked-button (click)="signUp()">Crear cuenta</button> 
+             <button mat-raised-button (click)="signup()" [disabled]="!validEmail || !validPassword || isPristine">Crear cuenta</button> 
+             <button mat-stroked-button (click)="login()">Iniciar sesion</button> 
          </mat-card-actions>
     </mat-card>
  

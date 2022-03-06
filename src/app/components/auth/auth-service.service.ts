@@ -21,13 +21,9 @@ export class AuthServiceService {
   constructor(private http : HttpClient) { }
 
   login(loginRequest : LoginRequest) {
-   
     let headers = new HttpHeaders({ 
     });
- 
-
-    return this.http.post(`${this.baseURL}${this.loginURL}`, loginRequest, {headers : headers} );
+    return this.http.post<AuthResponse>(`${this.baseURL}${this.loginURL}`, loginRequest, {headers : headers} );
   }
-
-
+ 
 }
