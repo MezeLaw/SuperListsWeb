@@ -16,8 +16,8 @@
             <div class="example-container margins">
                 <mat-form-field appearance="fill">
                 <mat-label class="label-field-color margins">Ingrese su nombre y apellido o apodo</mat-label>
-                <input matInput placeholder="jose@ejemplo.com" formControlName="email" required> 
-                <mat-error *ngIf="validEmail">{{getNameErrorMessage()}}</mat-error> 
+                <input matInput placeholder="jose@ejemplo.com" formControlName="name" required> 
+                <mat-error *ngIf="validName">{{getNameErrorMessage()}}</mat-error> 
                 </mat-form-field>
             </div>
 
