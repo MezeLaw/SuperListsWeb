@@ -14,17 +14,22 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSidenavModule} from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
-import { SignupComponent } from './components/signup/signup.component'; 
+import { SignupComponent } from './components/signup/signup.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component'; 
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
     HomeComponent,
-    SignupComponent, 
+    SignupComponent,
+    SidenavComponent, 
   ],
   imports: [
     MatButtonModule,
@@ -34,6 +39,9 @@ import { SignupComponent } from './components/signup/signup.component';
     MatToolbarModule, 
     MatCardModule,
     MatSnackBarModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
