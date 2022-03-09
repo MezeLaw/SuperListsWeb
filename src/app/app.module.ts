@@ -21,7 +21,9 @@ import { MatListModule } from '@angular/material/list';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component'; 
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { ListsComponent } from './components/lists/lists.component';
+import { ProfileComponent } from './components/profile/profile.component'; 
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     AuthComponent,
     HomeComponent,
     SignupComponent,
-    SidenavComponent, 
+    SidenavComponent,
+    ListsComponent,
+    ProfileComponent, 
   ],
   imports: [
     MatButtonModule,

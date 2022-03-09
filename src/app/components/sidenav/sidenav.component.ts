@@ -10,7 +10,7 @@ export class SidenavComponent implements OnDestroy {
 
   mobileQuery: MediaQueryList;
 
-  fillerNav = Array.from({length: 7}, (_, i) => `Nav Item ${i + 1}`);
+  //fillerNav = Array.from({length: 7}, (_, i) => `Nav Item ${i + 1}`);
 
   fillerContent = Array.from(
     {length: 7},
@@ -35,5 +35,12 @@ export class SidenavComponent implements OnDestroy {
   }
 
   //shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(window.location.host);
+
+
+
+  logOut(){  
+    localStorage.removeItem('token')  
+  }
+
 
 }

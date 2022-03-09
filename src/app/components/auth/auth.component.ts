@@ -63,7 +63,7 @@ export class AuthComponent implements OnInit {
     subscribe(apiResponse => {  
       console.log(apiResponse)
       localStorage.setItem ('token', apiResponse.token);
-      this.router.navigate(['init'])
+      this.router.navigate(['app'])
     },  (err:HttpErrorResponse)=>{
 
       console.log("Status code es: ", err.status)
