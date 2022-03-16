@@ -25,6 +25,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ListsComponent } from './components/lists/lists.component';
 import { ProfileComponent } from './components/profile/profile.component'; 
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { LoginErrorComponent } from './components/login-error/login-error.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
     SignupComponent,
     SidenavComponent,
     ListsComponent,
-    ProfileComponent, 
+    ProfileComponent,
+    LoginErrorComponent, 
   ],
   imports: [
     MatButtonModule,

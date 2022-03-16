@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
@@ -6,7 +7,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class JwtService {
 
-  constructor(public jwtHelper: JwtHelperService) { }
+  constructor(public jwtHelper: JwtHelperService, private router : Router) { }
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
@@ -14,6 +15,7 @@ export class JwtService {
     // true or false
 
     if (token == null) {
+      this.router.navigate(['/upss'])
       return false
     }
 
