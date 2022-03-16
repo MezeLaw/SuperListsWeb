@@ -1,8 +1,33 @@
+<mat-grid-list [cols]="1" rowHeight="770px" class="grid-list-styles">
+    <mat-grid-tile 
+        [colspan]="1"
+        [rowspan]="1"
+        [style.background]="">
+       <!--  <h1 class="title-styles">Noticias</h1>    -->
+
+       <mat-card>
+        <mat-card-title>Upss...</mat-card-title>
+        <mat-card-subtitle>Ocurrio un error</mat-card-subtitle>
+    
+        <mat-card-content>
+            <p>No tenes los permisos para ver esta página o no estas logueado! </p> 
+            <p>Te recomendamos intentar iniciar sesion. Si el error persiste comunicate con el administrador!</p>
+            <p>Gracias!</p>
+        </mat-card-content>
+    
+        <mat-card-actions> 
+          <button mat-button (click)="goToLogin()"> ¡Iniciar sesion!</button>
+        </mat-card-actions>
+      </mat-card>
+        <mat-divider class="divider-style"></mat-divider>
+    </mat-grid-tile> 
+  </mat-grid-list>
+
+<br>
+
+
+  <br> 
  
+  
 
-
-<h2>No tenes los permisos para ver esta página o no estas logueado! </h2> 
-<h3>Te recomendamos intentar iniciar sesion. Si el error persiste comunicate con el administrador!</h3>
-<h3>Gracias!</h3>
-
-<button (click)="goToLogin()"> ¡Iniciar sesion!</button>
+     
