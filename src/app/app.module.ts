@@ -24,6 +24,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ListsComponent } from './components/lists/lists.component';
 import { ProfileComponent } from './components/profile/profile.component'; 
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, JwtHelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
