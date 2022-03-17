@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SignUpRequest, SignupService } from './signup.service';
+import { ActivatedRoute, Router } from '@angular/router'; 
+import { SignUpRequest, SignupService } from 'src/app/services/signup/signup.service';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +15,7 @@ export class SignupComponent implements OnInit {
   signUpForm!: FormGroup; 
 
   showPassword : boolean = false
-  inputPasswordFieldType : string = "password"
+  inputPasswordFieldType = "password"
 
   constructor(private fb : FormBuilder, private _snackBar: MatSnackBar, private route : ActivatedRoute, private router : Router, private signUpService : SignupService) {
     this.createSignUpForm()
