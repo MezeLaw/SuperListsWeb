@@ -33,10 +33,14 @@
              <div class="example-container margins">
                  <mat-form-field appearance="fill">
                  <mat-label class="label-field-color">Ingrese su contraseña</mat-label>
-                 <input matInput placeholder="contraseña" formControlName="password" required>
+                 <input matInput placeholder="contraseña" formControlName="password" required type="{{inputPasswordFieldType}}">
                  <mat-error *ngIf="validPassword">{{getPasswordErrorMessage()}}</mat-error> 
                  </mat-form-field>
              </div>
+
+             <div  >
+                <mat-checkbox (click)="switchPasswordVisibility()" class="example-margin"><span>Mostrar contraseña</span></mat-checkbox>
+            </div>
          </div>
  
  

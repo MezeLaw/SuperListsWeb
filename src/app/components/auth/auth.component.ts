@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { AuthServiceService } from './auth-service.service';
+import { ActivatedRoute, Route, Router } from '@angular/router'; 
+import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
 
 
 export interface User {
@@ -26,7 +26,9 @@ export interface LoginRequest {
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
-  
+
+  showPassword : boolean = false
+  inputPasswordFieldType : string = "password"
   loginForm!: FormGroup; 
   constructor(private fb: FormBuilder, private authService : AuthServiceService, private _snackBar: MatSnackBar, private router : Router, private route : ActivatedRoute) {
     this.createLoginForm();
@@ -117,6 +119,16 @@ export class AuthComponent implements OnInit {
 
   signUp(){ 
     this.router.navigate(['signup']);
+  }
+
+
+  switchPasswordVisibility(){
+    this.showPassword = !this.showPassword
+    if (this.showPassword) {
+      this.inputPasswordFieldType = "text"
+    } else {
+      this.inputPasswordFieldType = "password"
+    }
   }
 
 }

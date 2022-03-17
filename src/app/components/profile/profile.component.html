@@ -1,4 +1,62 @@
 <div class="animate__animated animate__fadeIn">
-    <p>profile works!</p>
-</div>
+    <mat-grid-list [cols]="1" rowHeight="70px" class="grid-list-styles">
+        <mat-grid-tile 
+            [colspan]="1"
+            [rowspan]="1"
+            [style.background]="">
+            <h1 class="title-styles">Mis datos</h1>    
+            <mat-divider class="divider-style"></mat-divider>
+            
+        </mat-grid-tile> 
+    
+    </mat-grid-list>
+    
 
+
+    <mat-grid-list [cols]="1" rowHeight="70px" class="grid-list-styles">
+        <mat-grid-tile 
+            [colspan]="1"
+            [rowspan]="1"
+            [style.background]="">
+            <h3 class="title-styles">Email</h3>
+            <mat-divider class="divider-style"></mat-divider> 
+        </mat-grid-tile> 
+        
+    </mat-grid-list> 
+    <div class="text-style">
+        <p>{{email}}</p>
+    </div>
+
+
+    <mat-grid-list [cols]="1" rowHeight="70px" class="grid-list-styles">
+        <mat-grid-tile 
+            [colspan]="1"
+            [rowspan]="1"
+            [style.background]="">
+            <h3 class="title-styles">Nombre/apodo</h3>
+            <mat-divider class="divider-style"></mat-divider> 
+        </mat-grid-tile> 
+        
+    </mat-grid-list> 
+    <div class="text-style">
+        <p>{{name}}</p>
+    </div>
+
+
+    <mat-grid-list [cols]="1" rowHeight="70px" class="grid-list-styles">
+        <mat-grid-tile 
+            [colspan]="1"
+            [rowspan]="1"
+            [style.background]="">
+            <h3 class="title-styles">Fecha de alta</h3>
+            <mat-divider class="divider-style"></mat-divider> 
+        </mat-grid-tile> 
+        
+    </mat-grid-list> 
+    <div class="text-style">
+        <p>{{fechaCreate}}</p>
+    </div>
+
+
+
+</div>

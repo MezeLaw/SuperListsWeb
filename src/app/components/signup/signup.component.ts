@@ -13,6 +13,10 @@ import { SignUpRequest, SignupService } from './signup.service';
 export class SignupComponent implements OnInit {
 
   signUpForm!: FormGroup; 
+
+  showPassword : boolean = false
+  inputPasswordFieldType : string = "password"
+
   constructor(private fb : FormBuilder, private _snackBar: MatSnackBar, private route : ActivatedRoute, private router : Router, private signUpService : SignupService) {
     this.createSignUpForm()
    }
@@ -117,6 +121,15 @@ export class SignupComponent implements OnInit {
 
   login(){  
     this.router.navigate(['auth']);
+  }
+
+  switchPasswordVisibility(){
+    this.showPassword = !this.showPassword
+    if (this.showPassword) {
+      this.inputPasswordFieldType = "text"
+    } else {
+      this.inputPasswordFieldType = "password"
+    }
   }
 
 }

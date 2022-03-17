@@ -17,6 +17,7 @@ import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatSidenavModule} from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import {MatCheckboxModule } from '@angular/material/checkbox';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
@@ -49,6 +50,7 @@ import { LoginErrorComponent } from './components/login-error/login-error.compon
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatCheckboxModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
