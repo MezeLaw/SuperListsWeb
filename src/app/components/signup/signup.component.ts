@@ -13,7 +13,7 @@ import { SignUpRequest, SignupService } from 'src/app/services/signup/signup.ser
 export class SignupComponent implements OnInit {
 
   signUpForm!: FormGroup; 
-
+  loading : boolean = false
   showPassword : boolean = false
   inputPasswordFieldType = "password"
 
@@ -65,12 +65,14 @@ export class SignupComponent implements OnInit {
   }
 
   signup(){
+    this.loading = true
     console.log("Click on signUp button")
     const name = this.signUpForm.get('name')?.value
     const email = this.signUpForm.get('email')?.value
     const password = this.signUpForm.get('password')?.value
 
     if (email == null || password == null || name == null) {
+      this.loading = false
       this._snackBar.open("Complete todos los campos", "Cerrar", {
         duration: 7000,
         panelClass: 'red-snackbar'
@@ -89,12 +91,13 @@ export class SignupComponent implements OnInit {
     this.signUpService.signUp(signUpRequest).
     subscribe(apiResponse => {  
       console.log(apiResponse)
+      this.loading = false
       this._snackBar.open("Cuenta creada exitosamente. Inicie sesion para comenzar!", "Cerrar", {
         duration: 7000,
         panelClass: 'green-snackbar'
       });
     },  (err:HttpErrorResponse)=>{
-
+      this.loading = false
       console.log("Status code es: ", err.status)
 
       if (err.status == 400) {

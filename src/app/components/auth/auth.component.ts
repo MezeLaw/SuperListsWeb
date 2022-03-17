@@ -29,6 +29,9 @@ export class AuthComponent implements OnInit {
 
   showPassword : boolean = false
   inputPasswordFieldType : string = "password"
+
+  loading : boolean = false
+
   loginForm!: FormGroup; 
   constructor(private fb: FormBuilder, private authService : AuthServiceService, private _snackBar: MatSnackBar, private router : Router, private route : ActivatedRoute) {
     this.createLoginForm();
@@ -46,6 +49,7 @@ export class AuthComponent implements OnInit {
 
   login(){
     
+    this.loading  = true
 
     const email = this.loginForm.get('email')?.value
     const password = this.loginForm.get('password')?.value
@@ -58,19 +62,18 @@ export class AuthComponent implements OnInit {
     } 
     const loginRequest: LoginRequest = { email: email, password: password};
    
-    console.log("Email recibido: ", email)
-    console.log("Contraseña recibida: ", password)
-
     this.authService.login(loginRequest).
     subscribe(apiResponse => {  
       console.log(apiResponse)
       localStorage.setItem ('token', apiResponse.token);
       this.router.navigate(['app'])
+      this.loading = false
     },  (err:HttpErrorResponse)=>{
 
       console.log("Status code es: ", err.status)
-
+      this.loading = false
       if (err.status == 401) {
+        
         this._snackBar.open("Email o contraseña incorrectas", "Cerrar", {
           duration: 7000,
           panelClass: 'red-snackbar'

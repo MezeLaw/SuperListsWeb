@@ -38,7 +38,7 @@
  
  
          <mat-card-actions class="pt-1 pb-1"> 
-             <button mat-raised-button (click)="login()" [disabled]="!validEmail || !validPassword || isPristine">Iniciar sesion</button> 
+             <button mat-raised-button (click)="login()" [disabled]="!validEmail || !validPassword || isPristine || loading">Iniciar sesion</button> 
              <button mat-stroked-button (click)="signUp()">Crear cuenta</button> 
          </mat-card-actions>
     </mat-card>
