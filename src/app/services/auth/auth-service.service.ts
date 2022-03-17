@@ -15,7 +15,8 @@ export interface LoginRequest {
   providedIn: 'root'
 })
 export class AuthServiceService {
-
+  
+  //TODO no hardcodear esta address
   baseURL = 'http://localhost:8080/v1/auth';
   loginURL = '/login'
 

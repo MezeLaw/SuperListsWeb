@@ -20,27 +20,24 @@ export interface DecodedToken {
 })
 export class ProfileService { 
 
-
+  //TODO no hardcodear esta address
   baseURL = 'http://localhost:8080/v1/users/'; 
 
   constructor(private http : HttpClient, private jwtHelper: JwtHelperService) { }
 
   getProfileData() {
-    var tkn  = localStorage.getItem('token')
+    var token  = localStorage.getItem('token')
 
-    if( tkn == null ){
-      tkn = "invalidToken"
+    if( token == null ){
+      token = "invalidToken"
     }
 
-    const decodedToken : DecodedToken = this.jwtHelper.decodeToken(tkn);
-
-    console.log("Token decodificado es: ")
-    console.log(decodedToken)
-
-    console.log("Email del decode token es: ", decodedToken.Email)
+    const decodedToken : DecodedToken = this.jwtHelper.decodeToken(token);
+    
+ 
     var email : any = decodedToken.Email
 
-    let headers = new HttpHeaders({ "token" : tkn
+    let headers = new HttpHeaders({ "token" : token
     });
  
     return this.http.get<ProfileResponse>(`${this.baseURL}${email}`, {headers : headers} );

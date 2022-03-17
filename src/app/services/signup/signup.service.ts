@@ -18,7 +18,8 @@ export interface SignUpRequest {
   providedIn: 'root'
 })
 export class SignupService {
-
+  
+  //TODO no hardcodear esta address
   baseURL = 'http://localhost:8080/v1/auth';
   signUpURL = '/signup'
 

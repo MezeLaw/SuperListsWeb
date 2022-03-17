@@ -15,13 +15,15 @@ export class ProfileComponent implements OnInit {
   constructor(private profileService : ProfileService) {
 
 
-    this.profileService.getProfileData().subscribe( response =>{
-      console.log("Data obtenida desde el profile service: ", response)
+    this.profileService.getProfileData().subscribe( response =>{ 
       this.fechaCreate = response.CreatedAt
       this.email = response.email
       this.name = response.name
     }, err => {
       console.log("error al intentar recuperar el profle. Error: ", err)
+      this.fechaCreate = "No disponible, regresa luego!"
+      this.email = "No disponible, regresa luego!"
+      this.name = "No disponible, regresa luego!"
     })
 
   }
