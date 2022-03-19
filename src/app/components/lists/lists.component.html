@@ -1,3 +1,73 @@
 <div class="animate__animated animate__fadeIn">
-    <p>lists works!</p>
+    <mat-grid-list [cols]="1" rowHeight="70px" class="grid-list-styles">
+        <mat-grid-tile 
+            [colspan]="1"
+            [rowspan]="1"
+            [style.background]="">
+            <h1 class="title-styles">Mis listas</h1>    
+            <mat-divider class="divider-style"></mat-divider>
+             
+        </mat-grid-tile> 
+    
+    </mat-grid-list>
+
+
+    <div *ngIf="!haveLists" class="text-style">
+        <p>  
+           ¡Aún no tenes ninguna lista! Recorda que desde aca podras visualizar todas las listas en las que participás sin importar si la creaste vos o te uniste por invitación.
+        </p>
+    </div>
+
+    <div class="demo-button-container text-style">
+        <button mat-raised-button (click)="addData()" class="demo-button">
+          Crear lista
+        </button>
+        <button
+            mat-raised-button 
+            class="demo-button">
+          Unirse a lista
+        </button>
+        <hr>
+    </div> 
+     
+ 
+
+     <div class="text-style">
+        <table mat-table
+            [dataSource]="dataSource" multiTemplateDataRows
+            class="mat-elevation-z8">
+            <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+                <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+            </ng-container>  
+ 
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                  <div class="example-element-detail"
+                      [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                      
+                    <span class="example-element-description-attribution"> Descripcion </span>
+                      <div class="example-element-description">
+                        {{element['descripcion']}}
+                      <!-- <span class="example-element-description-attribution"> -- Lorem </span> -->
+                      <br>
+                      <br>
+                      <button mat-raised-button color="accent" (click)="getList(element['id'])">Ver</button> 
+                      <button mat-raised-button color="warn"(click)="deleteList(element['id'])">Eliminar</button>
+                      </div>
+                  </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+                class="example-element-row"
+                [class.example-expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement === element ? null : element">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+             
+        </table>
+     </div>
 </div>
