@@ -17,8 +17,9 @@ import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatSidenavModule} from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import {MatCheckboxModule } from '@angular/material/checkbox';
-import {MatTableModule} from '@angular/material/table';
+import { MatCheckboxModule  } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
@@ -28,6 +29,7 @@ import { ListsComponent } from './components/lists/lists.component';
 import { ProfileComponent } from './components/profile/profile.component'; 
 import { JwtHelperService, JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { LoginErrorComponent } from './components/login-error/login-error.component';
+import { NewListComponent } from './components/new-list/new-list.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { LoginErrorComponent } from './components/login-error/login-error.compon
     SidenavComponent,
     ListsComponent,
     ProfileComponent,
-    LoginErrorComponent, 
+    LoginErrorComponent,
+    NewListComponent, 
   ],
   imports: [
     MatButtonModule,
@@ -53,6 +56,7 @@ import { LoginErrorComponent } from './components/login-error/login-error.compon
     MatListModule,
     MatCheckboxModule,
     MatTableModule,
+    MatDialogModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

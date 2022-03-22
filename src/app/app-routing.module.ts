@@ -4,6 +4,7 @@ import { AuthComponent } from './components/auth/auth.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListsComponent } from './components/lists/lists.component';
 import { LoginErrorComponent } from './components/login-error/login-error.component';
+import { NewListComponent } from './components/new-list/new-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -21,7 +22,11 @@ const routes: Routes = [
       },
       {
         path: 'lists',
-        component: ListsComponent, // another child route component that the router renders
+        component: ListsComponent, // another child route component that the router renders 
+      },
+      {
+        path: 'new-list',
+        component: NewListComponent
       },
       {
         path: 'profile',

@@ -3,12 +3,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 
-export interface List {
-  //id: any;
-  //Nombre: any;
-  //descripcion: any;
-  //Codigo: string;
-
+export interface List {  
   CreatedAt: any;
   DeletedAt: any;
   ID: any;
@@ -18,6 +13,12 @@ export interface List {
   list_items: any;
   name: any;
   user_creator_id: any
+}
+
+export interface ListRequest {
+  name : any
+  description : any
+  user_creator_id : any
 }
 
 export interface DecodedToken {
@@ -90,4 +91,26 @@ export class ListsService {
  
     return this.http.delete<List>(`${this.baseURL}${listID}`, {headers : headers} );
   }
+
+  create(name : any, description : any) {
+
+    
+
+    var token  = localStorage.getItem('token')
+
+    if( token == null ){
+      token = "invalidToken"
+    }
+
+    const decodedToken : DecodedToken = this.jwtHelper.decodeToken(token);
+    
+  
+    var userId : any = decodedToken.UserID
+    const listRequest: ListRequest = { name: name, description : description, user_creator_id: userId };
+
+    let headers = new HttpHeaders({ "token" : token, "user_id": userId });
+
+    return this.http.post<List>(`${this.baseURL}`, listRequest, {headers : headers} );
+  }
+
 }

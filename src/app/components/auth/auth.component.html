@@ -17,7 +17,7 @@
                  <mat-form-field appearance="fill">
                  <mat-label class="label-field-color margins">Ingrese su email</mat-label>
                  <input matInput placeholder="jose@ejemplo.com" formControlName="email" required> 
-                 <mat-error *ngIf="validEmail">{{getEmailErrorMessage()}}</mat-error> 
+                 <mat-error>{{getEmailErrorMessage()}}</mat-error> 
                  </mat-form-field>
              </div>
      
@@ -25,7 +25,7 @@
                  <mat-form-field appearance="fill">
                     <mat-label class="label-field-color">Ingrese su contraseña</mat-label>
                     <input matInput placeholder="contraseña" formControlName="password" type="{{inputPasswordFieldType}}">
-                    <mat-error *ngIf="validPassword">{{getPasswordErrorMessage()}}</mat-error> 
+                    <mat-error>{{getPasswordErrorMessage()}}</mat-error> 
                  </mat-form-field>
              </div>
 

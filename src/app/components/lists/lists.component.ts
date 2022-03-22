@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { ListsService } from 'src/app/services/lists.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
-export interface List {
-  //id: any;
-  //Nombre: any;
-  //descripcion: any;
-  //Codigo: string;
-
+export interface List { 
   CreatedAt: any;
   DeletedAt: any;
   ID: any;
@@ -18,13 +15,7 @@ export interface List {
   name: any;
   user_creator_id: any
 }
-
-//const ELEMENT_DATA: List[] = [
- // {id: 1, Nombre: 'Super', descripcion: "lista del super", Codigo: 'd1ba19dc-940c-4c2a-a2f3-46e1942a7341'},
-  //{id: 2, Nombre: 'Laburo', descripcion: "tareas pendientes", Codigo: 'd1b139dc-910c-4c2a-a2f3-46e1942a7341'},
-  //{id: 3, Nombre: 'Finde', descripcion: "planes para el finde", Codigo: 'd1bncldc-47x0-4c2a-a2f3-46e1942a7341'},
-  //{id: 4, Nombre: 'Rutina Gym', descripcion: "Rutina inicial de gym", Codigo: 'lnmk39dc-910c-4c2a-a2f3-46e1942a7341'}, 
-//];
+ 
 
 
 @Component({
@@ -48,7 +39,7 @@ export class ListsComponent implements OnInit {
   dataSource = this.lists;
   haveLists : boolean = false
 
-  constructor(private listService : ListsService) {
+  constructor(private listService : ListsService, public dialog: MatDialog, private router : Router) {
 
    //Llamo al servicio del listas
 
@@ -59,8 +50,9 @@ export class ListsComponent implements OnInit {
  
   }
 
-  addData(){
-
+  createList(){
+    console.log("Will go to new list form")
+    this.router.navigate(['app/new-list'])
   }
 
   ngOnInit(): void {
@@ -82,10 +74,7 @@ export class ListsComponent implements OnInit {
 
     }, error => {
       console.log("error when trying to delete list ")
-    }) 
-
-   
- 
+    })  
   }
 
   getListForUser() {
@@ -97,6 +86,8 @@ export class ListsComponent implements OnInit {
       console.log("error al intentar obtener lasl istas", err)
     })
   }
+
+  
  
    
 }
