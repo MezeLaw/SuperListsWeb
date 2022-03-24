@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { ListsService } from 'src/app/services/lists.service';
+import { Router } from '@angular/router'; 
+import { ListsService } from 'src/app/services/lists/lists.service';
 
 export interface List {  
   CreatedAt: any;

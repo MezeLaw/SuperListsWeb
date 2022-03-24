@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import { ListsService } from 'src/app/services/lists.service';
+import {animate, state, style, transition, trigger} from '@angular/animations'; 
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ListsService } from 'src/app/services/lists/lists.service';
 
 export interface List { 
   CreatedAt: any;
