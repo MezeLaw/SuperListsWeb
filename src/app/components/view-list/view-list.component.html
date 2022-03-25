@@ -4,7 +4,7 @@
             [colspan]="1"
             [rowspan]="1"
             [style.background]="">
-            <h1 class="title-styles">Mis listas</h1>    
+            <h1 class="title-styles">Tareas</h1>    
             <mat-divider class="divider-style"></mat-divider>
              
         </mat-grid-tile> 
@@ -12,21 +12,21 @@
     </mat-grid-list>
 
 
-    <div *ngIf="!haveLists" class="text-style">
+    <div *ngIf="!haveItems" class="text-style">
         <p>  
-           ¡Aún no tenes ninguna lista! Recorda que desde aca podras visualizar todas las listas en las que participás sin importar si la creaste vos o te uniste por invitación.
+            Texto para mostrar q n o hay items
         </p>
     </div>
 
     <div class="demo-button-container text-style">
-        <button mat-raised-button (click)="createList()" class="demo-button">
-          Crear lista
+        <button mat-raised-button (click)="createItem()" class="demo-button">
+          Agregar tarea
         </button>
-        <button
-            mat-raised-button 
-            class="demo-button" (click)="joinListByCode()" class="demo-button">
-          Unirse a lista
-        </button>
+         
+
+        <button mat-raised-button (click)="returnToMyLists()" class="demo-button">
+            Volver a mis listas
+          </button>
         <hr>
     </div> 
      
@@ -36,22 +36,17 @@
         <table mat-table
             [dataSource]="dataSource" multiTemplateDataRows
             class="mat-elevation-z8">
-            <!-- 
-              <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-                <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-                <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-            </ng-container>  
-            -->
- 
-          <ng-container matColumnDef="Nombre">
-              <th mat-header-cell *matHeaderCellDef> Nombre </th>
-              <td mat-cell *matCellDef="let element"> {{element['name']}} </td>
+         
+          <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef> Titulo </th>
+              <td mat-cell *matCellDef="let element"> {{element['title']}} </td>
           </ng-container>  
 
-          <ng-container matColumnDef="Codigo">
-            <th mat-header-cell *matHeaderCellDef> Codigo </th>
-            <td mat-cell *matCellDef="let element"> {{element['invite_code']}} </td>
+          <ng-container matColumnDef="completed">
+            <th mat-header-cell *matHeaderCellDef> Completada </th>
+            <td mat-cell *matCellDef="let element"> {{element['is_done']}} </td>
         </ng-container> 
+ 
             
             <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
             <ng-container matColumnDef="expandedDetail">
@@ -65,8 +60,8 @@
                       <!-- <span class="example-element-description-attribution"> -- Lorem </span> -->
                       <br>
                       <br>
-                      <button mat-raised-button color="accent" (click)="getList(element['ID'])">Ver</button> 
-                      <button mat-raised-button color="warn"(click)="deleteList(element['ID'])">Eliminar</button>
+                      <button mat-raised-button color="accent" (click)="editListItem(element['ID'])">Editar</button> 
+                      <button mat-raised-button color="warn"(click)="deleteListItem(element['ID'])">Eliminar</button>
                       </div>
                   </div>
                 </td>

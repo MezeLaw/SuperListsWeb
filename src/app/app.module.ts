@@ -30,6 +30,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { JwtHelperService, JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { LoginErrorComponent } from './components/login-error/login-error.component';
 import { NewListComponent } from './components/new-list/new-list.component';
+import { ViewListComponent } from './components/view-list/view-list.component';
+import { JoinListComponent } from './components/join-list/join-list.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { NewListComponent } from './components/new-list/new-list.component';
     ListsComponent,
     ProfileComponent,
     LoginErrorComponent,
-    NewListComponent, 
+    NewListComponent,
+    ViewListComponent,
+    JoinListComponent, 
   ],
   imports: [
     MatButtonModule,

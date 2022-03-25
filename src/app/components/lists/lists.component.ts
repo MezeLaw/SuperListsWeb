@@ -59,7 +59,13 @@ export class ListsComponent implements OnInit {
   }
 
   getList(id : any){
-    console.log("ID recibido: ", id)
+    console.log("ID recibido: ", id) 
+    this.router.navigate(['app/lists/', id])
+  }
+
+  joinListByCode(){
+    console.log("Will go to new list form")
+    this.router.navigate(['app/join-list'])
   }
 
   deleteList(id : any ) {

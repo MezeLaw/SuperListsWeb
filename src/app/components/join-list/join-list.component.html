@@ -1,0 +1,33 @@
+<body class="animate__animated animate__fadeIn"> 
+  
+
+    <div class="content" role="main">
+    
+      <mat-card class="card-color card-size card-align">
+          
+           <mat-card-title class="card-title-alig pt-1 pb-1">Unirse a lista</mat-card-title> 
+           <div>   
+              <form [formGroup]="joinListForm">
+   
+                  <div class="example-container margins">
+                      <mat-form-field appearance="fill">
+                      <mat-label class="label-field-color margins">Codigo de invitación</mat-label>
+                      <input matInput placeholder="Ej: abc1225-xasd7-aFylmz-0asd-" formControlName="code" required> 
+                      <mat-error>{{getCodeMessageError()}}</mat-error> 
+                      </mat-form-field>
+                  </div> 
+               
+              </form>
+           </div>
+    
+           <mat-card-actions class="pt-1 pb-1"> 
+               <button mat-raised-button (click)="jointoList()" [disabled]="!validCode || isPristine || loading">Unirse</button> 
+               <button mat-stroked-button (click)="returnToLists()">Volver a mis listas</button> 
+           </mat-card-actions>
+      </mat-card>
+   
+   </div>
+  
+   
+  
+  </body>
