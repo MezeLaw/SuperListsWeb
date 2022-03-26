@@ -113,4 +113,21 @@ export class ListsService {
     return this.http.post<List>(`${this.baseURL}`, listRequest, {headers : headers} );
   }
 
+  joinList(inviteCode : any){
+
+    var token  = localStorage.getItem('token')
+
+    if( token == null ){
+      token = "invalidToken"
+    }
+
+    const decodedToken : DecodedToken = this.jwtHelper.decodeToken(token);
+    
+  
+    var userId : any = decodedToken.UserID;
+
+    let headers = new HttpHeaders({ "token" : token, "user_id": userId });
+    return this.http.post<List>(`${this.baseURL}joinList/${inviteCode}`, null, {headers : headers})
+  }
+
 }

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,7 +22,44 @@ export class JoinListComponent implements OnInit {
   }
 
   jointoList(){
+    const inviteCode = this.joinListForm.get('code')?.value
     console.log("JOIN TO LIST WITH CODE: ", )
+    this.listService.joinList(inviteCode).subscribe(resp => {
+      console.log("Volvi del join list con la siguiente rta: ", resp) 
+      this._snackBar.open("Te uniste exitosamente a la lista", "Cerrar", {
+        duration: 7000,
+        panelClass: 'green-snackbar'
+      });
+
+      this.loading = false
+    }, (err: HttpErrorResponse) => {
+      console.log("Error from service on join list: ", err)
+      this.loading = false
+      console.log("Status code es: ", err.status)
+
+      if (err.status == 400) {
+        this._snackBar.open("Algun dato de los ingresados no pudo ser procesado correctamente. Intentelo nuevamente", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  
+      else if(err.status == 500 ){
+        this._snackBar.open("Ocurrio un error al intentar unirse a la lista. Intentelo nuevamente", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else if (err.status == 404) {
+        this._snackBar.open("El código ingresado no corresponde a ninguna lista!", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
+    })
   }
 
   returnToLists(){
