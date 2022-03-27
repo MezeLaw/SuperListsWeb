@@ -12,9 +12,9 @@
     </mat-grid-list>
 
 
-    <div *ngIf="!haveItems" class="text-style">
+    <div *ngIf="!haveTasks" class="text-style">
         <p>  
-            Texto para mostrar q n o hay items
+            Esta lista no tiene tareas! Podés agregar una haciendo click en agregar!
         </p>
     </div>
 
@@ -44,7 +44,7 @@
 
           <ng-container matColumnDef="completed">
             <th mat-header-cell *matHeaderCellDef> Completada </th>
-            <td mat-cell *matCellDef="let element"> {{element['is_done']}} </td>
+            <td mat-cell *matCellDef="let element"> {{element['is_done'] | taskIsCompleted }}  </td>
         </ng-container> 
  
             

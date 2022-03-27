@@ -2,6 +2,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
+export  interface ListItem {
+  ID: any
+  CreatedAt : any
+  list_id : any
+  user_id : any
+  title : any
+  description : any
+  is_done : boolean
+}
 
 export interface List {  
   CreatedAt: any;
@@ -10,7 +19,7 @@ export interface List {
   UpdatedAt: any;
   description: any;
   invite_code: any;
-  list_items: any;
+  list_items: ListItem[];
   name: any;
   user_creator_id: any
 }
@@ -60,7 +69,8 @@ export class ListsService {
   }
 
 
-  getListByID() {
+  getListByID(listId : any) {
+    console.log("xD")
     var token  = localStorage.getItem('token')
 
     if( token == null ){
@@ -70,7 +80,7 @@ export class ListsService {
     let headers = new HttpHeaders({ "token" : token
     });
  
-    return this.http.get<List>(`${this.baseURL}$/listID`, {headers : headers} );
+    return this.http.get<List>(`${this.baseURL}${listId}`, {headers : headers} );
   }
 
   deleteListByID(listID : any) {
@@ -129,5 +139,7 @@ export class ListsService {
     let headers = new HttpHeaders({ "token" : token, "user_id": userId });
     return this.http.post<List>(`${this.baseURL}joinList/${inviteCode}`, null, {headers : headers})
   }
+
+   
 
 }

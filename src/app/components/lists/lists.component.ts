@@ -37,14 +37,14 @@ export class ListsComponent implements OnInit {
   expandedElement: List | null | undefined;
   //dataSource = ELEMENT_DATA;
   dataSource = this.lists;
-  haveLists : boolean = false
+  
 
   constructor(private listService : ListsService, public dialog: MatDialog, private router : Router) {
 
    //Llamo al servicio del listas
-
-   this.getListForUser()
     
+   this.getListForUser()
+     
    // Si corresponde las asigno  no y actualizo el valor de haveLists
 
  
@@ -91,6 +91,14 @@ export class ListsComponent implements OnInit {
     }, err => {
       console.log("error al intentar obtener lasl istas", err)
     })
+  }
+
+  get haveLists() : Boolean{
+    if(this.lists == null || this.lists.length>0){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   

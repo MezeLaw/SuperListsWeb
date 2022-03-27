@@ -32,6 +32,7 @@ import { LoginErrorComponent } from './components/login-error/login-error.compon
 import { NewListComponent } from './components/new-list/new-list.component';
 import { ViewListComponent } from './components/view-list/view-list.component';
 import { JoinListComponent } from './components/join-list/join-list.component';
+import { TaskIsCompletedPipe } from './pipes/task-is-completed.pipe';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { JoinListComponent } from './components/join-list/join-list.component';
     LoginErrorComponent,
     NewListComponent,
     ViewListComponent,
-    JoinListComponent, 
+    JoinListComponent,
+    TaskIsCompletedPipe
   ],
   imports: [
     MatButtonModule,
