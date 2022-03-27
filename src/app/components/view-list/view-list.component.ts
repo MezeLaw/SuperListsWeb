@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ListItemService } from 'src/app/services/list-items/list-item.service';
 import { ListsService } from 'src/app/services/lists/lists.service';
 
 export  interface ListItem {
@@ -36,7 +37,7 @@ export class ViewListComponent implements OnInit {
   dataSource : ListItem[]= []
   loading : Boolean = true
 
-  constructor(private listService : ListsService, private router : Router, private route : ActivatedRoute, private _snackBar: MatSnackBar) { 
+  constructor(private listService : ListsService, private router : Router, private route : ActivatedRoute, private _snackBar: MatSnackBar, private listItemService : ListItemService) { 
 
     this.dataSource=  []
     const listID = this.route.snapshot.paramMap.get('listId');
@@ -64,7 +65,53 @@ export class ViewListComponent implements OnInit {
   }
 
   deleteListItem(id : any){
+    this.loading = true
     console.log("entre al deleteListItem with listID: ", id)
+    this.listItemService.deleteListItemByID(id).subscribe( resp => {
+        console.log("Deleted listItem withID: ", resp)
+        const listID = this.route.snapshot.paramMap.get('listId');
+    if (listID == null ){
+      this.loading = false
+      this.dataSource = []
+      this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
+        duration: 7000,
+        panelClass: 'red-snackbar'
+      });
+    } else {
+      this.loading = false
+      this.getListItems(listID)
+      this._snackBar.open("Se eliminó la tarea", "Cerrar", {
+        duration: 7000,
+        panelClass: 'green-snackbar'
+      });
+    }
+    }, (err: HttpErrorResponse)=>{
+      this.loading = false
+      console.log("Error when deleting listItem. Status code: ", err.status)
+      //this.loading = false
+      if (err.status == 401) {
+        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  else if (err.status == 400){
+        this._snackBar.open("Ocurrió un error al intentar eliminar la tarea deseada. Si el error persiste comuniquese con el adminstrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }
+      else if(err.status == 404 ){
+        this._snackBar.open("La tarea no existe! Si el error persiste comuniquese con el administrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
+    })
   }
 
   returnToMyLists(){

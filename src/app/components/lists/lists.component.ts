@@ -3,6 +3,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ListsService } from 'src/app/services/lists/lists.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface List { 
   CreatedAt: any;
@@ -37,14 +39,12 @@ export class ListsComponent implements OnInit {
   expandedElement: List | null | undefined;
   //dataSource = ELEMENT_DATA;
   dataSource = this.lists;
-  
+  loading = true
 
-  constructor(private listService : ListsService, public dialog: MatDialog, private router : Router) {
+  constructor(private listService : ListsService, public dialog: MatDialog, private router : Router, private _snackBar: MatSnackBar) {
 
-   //Llamo al servicio del listas
-    
+   //Llamo al servicio del listas 
    this.getListForUser()
-     
    // Si corresponde las asigno  no y actualizo el valor de haveLists
 
  
@@ -72,24 +72,75 @@ export class ListsComponent implements OnInit {
     console.log("Ud va a deletear la lista con id: ", id)
       //this.dataSource = this.dataToDisplay.slice(0, -1);
    // this.dataSource.setData(this.dataToDisplay);
-
+    this.loading = true
    //Elimino, si todo sale ok, llamo al request y actualizo tablas
     this.listService.deleteListByID(id).subscribe(resp => {
       console.log("list deleted. will refresh the lists ")
       this.getListForUser()
-
-    }, error => {
+      this._snackBar.open("Se eliminó la lista", "Cerrar", {
+        duration: 7000,
+        panelClass: 'green-snackbar'
+      });
+    }, (err : HttpErrorResponse) => {
       console.log("error when trying to delete list ")
+      this.loading = false 
+      if (err.status == 401) {
+        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  else if (err.status == 400){
+        this._snackBar.open("Ocurrió un error al eliminar la lista. Si el error persiste comuniquese con el adminstrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }
+      else if(err.status == 404 ){
+        this._snackBar.open("La lista no existe! Si el error persiste comuniquese con el administrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
     })  
   }
 
   getListForUser() {
+    this.loading = true
     this.listService.getLists().subscribe( response => {
       console.log("Resultado del get Lists: ", response)
       this.lists = response
       this.dataSource = this.lists
-    }, err => {
-      console.log("error al intentar obtener lasl istas", err)
+      this.loading = false
+    }, (err:HttpErrorResponse) => {
+      this.loading = false
+      console.log("Error when getting lists. Status code: ", err.status) 
+      if (err.status == 401) {
+        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  else if (err.status == 400){
+        this._snackBar.open("Ocurrió un error al obtener la lista. Si el error persiste comuniquese con el adminstrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }
+      else if(err.status == 404 ){
+        this._snackBar.open("La lista no existe! Si el error persiste comuniquese con el administrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
     })
   }
 

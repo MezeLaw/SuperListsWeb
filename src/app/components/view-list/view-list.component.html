@@ -19,12 +19,12 @@
     </div>
 
     <div class="demo-button-container text-style">
-        <button mat-raised-button (click)="createItem()" class="demo-button">
+        <button mat-raised-button [disabled]="loading" (click)="createItem()" class="demo-button">
           Agregar tarea
         </button>
          
 
-        <button mat-raised-button (click)="returnToMyLists()" class="demo-button">
+        <button mat-raised-button [disabled]="loading" (click)="returnToMyLists()" class="demo-button">
             Volver a mis listas
           </button>
         <hr>
@@ -60,8 +60,8 @@
                       <!-- <span class="example-element-description-attribution"> -- Lorem </span> -->
                       <br>
                       <br>
-                      <button mat-raised-button color="accent" (click)="editListItem(element['ID'])">Editar</button> 
-                      <button mat-raised-button color="warn"(click)="deleteListItem(element['ID'])">Eliminar</button>
+                      <button mat-raised-button color="accent" [disabled]="loading" (click)="editListItem(element['ID'])">Editar</button> 
+                      <button mat-raised-button color="warn" [disabled]="loading" (click)="deleteListItem(element['ID'])">Eliminar</button>
                       </div>
                   </div>
                 </td>

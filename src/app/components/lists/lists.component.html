@@ -19,12 +19,12 @@
     </div>
 
     <div class="demo-button-container text-style">
-        <button mat-raised-button (click)="createList()" class="demo-button">
+        <button mat-raised-button [disabled]="loading" (click)="createList()" class="demo-button">
           Crear lista
         </button>
         <button
             mat-raised-button 
-            class="demo-button" (click)="joinListByCode()" class="demo-button">
+            class="demo-button" [disabled]="loading" (click)="joinListByCode()" class="demo-button">
           Unirse a lista
         </button>
         <hr>
@@ -65,8 +65,8 @@
                       <!-- <span class="example-element-description-attribution"> -- Lorem </span> -->
                       <br>
                       <br>
-                      <button mat-raised-button color="accent" (click)="getList(element['ID'])">Ver</button> 
-                      <button mat-raised-button color="warn"(click)="deleteList(element['ID'])">Eliminar</button>
+                      <button mat-raised-button color="accent" [disabled]="loading" (click)="getList(element['ID'])">Ver</button> 
+                      <button mat-raised-button color="warn" [disabled]="loading" (click)="deleteList(element['ID'])">Eliminar</button>
                       </div>
                   </div>
                 </td>

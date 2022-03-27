@@ -34,4 +34,22 @@ export class ListItemService {
  
     return this.http.get<ListItem[]>(`${this.baseURL}`, {headers : headers} );
   }
+
+  deleteListItemByID(listItemId : any){
+    var token  = localStorage.getItem('token')
+
+    if( token == null ){
+      token = "invalidToken"
+    }
+
+    const decodedToken : DecodedToken = this.jwtHelper.decodeToken(token);
+     
+    var userId : any = decodedToken.UserID
+
+    console.log("UserID is: ", userId)
+
+    let headers = new HttpHeaders({ "token" : token, "user_id": userId });
+    //Will return the deleted listItem ID
+    return this.http.delete<number>(`${this.baseURL}${listItemId}`, {headers : headers} );
+  }
 }
