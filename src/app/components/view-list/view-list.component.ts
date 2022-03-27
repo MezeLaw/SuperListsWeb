@@ -28,11 +28,9 @@ export  interface ListItem {
   ],
 })
 export class ViewListComponent implements OnInit {
-  
-  sampleItem = {"ID":1, "CreatedAt":"hoy", "list_id": "1", "user_id":"1", "title":"TITULOO", "description":"DESCRIPTION", "is_done":true}
-
+    
   columnsToDisplay: string[] = ['title', 'completed'];
-  listItems : ListItem[] = [this.sampleItem]
+  listItems : ListItem[] = []
   expandedElement: ListItem | null | undefined; 
   dataSource : ListItem[]= []
   loading : Boolean = true
@@ -58,6 +56,8 @@ export class ViewListComponent implements OnInit {
 
   createItem(){
     console.log("Entre al createItem method!");
+    const listID = this.route.snapshot.paramMap.get('listId');
+    this.router.navigate(['app/new-task/', listID])
   }
 
   editListItem(id : any){

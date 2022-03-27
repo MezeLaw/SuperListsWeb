@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AddListItemComponent } from './components/add-list-item/add-list-item.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { HomeComponent } from './components/home/home.component';
 import { JoinListComponent } from './components/join-list/join-list.component';
@@ -37,6 +38,10 @@ const routes: Routes = [
       {
         path: 'join-list',
         component: JoinListComponent
+      },
+      {
+        path:"new-task/:listId",
+        component: AddListItemComponent
       },
       {
         path: 'profile',

@@ -52,4 +52,21 @@ export class ListItemService {
     //Will return the deleted listItem ID
     return this.http.delete<number>(`${this.baseURL}${listItemId}`, {headers : headers} );
   }
+
+  createItem(listItemRequest : ListItem){
+    var token  = localStorage.getItem('token')
+
+    if( token == null ){
+      token = "invalidToken"
+    }
+
+    const decodedToken : DecodedToken = this.jwtHelper.decodeToken(token);
+     
+    var userId : any = decodedToken.UserID
+    listItemRequest.user_id = userId;
+    
+    let headers = new HttpHeaders({ "token" : token, "user_id": userId });
+
+    return this.http.post<ListItem>(`${this.baseURL}`, listItemRequest, {headers : headers} );
+  }
 }

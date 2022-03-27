@@ -33,6 +33,7 @@ import { NewListComponent } from './components/new-list/new-list.component';
 import { ViewListComponent } from './components/view-list/view-list.component';
 import { JoinListComponent } from './components/join-list/join-list.component';
 import { TaskIsCompletedPipe } from './pipes/task-is-completed.pipe';
+import { AddListItemComponent } from './components/add-list-item/add-list-item.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { TaskIsCompletedPipe } from './pipes/task-is-completed.pipe';
     NewListComponent,
     ViewListComponent,
     JoinListComponent,
-    TaskIsCompletedPipe
+    TaskIsCompletedPipe,
+    AddListItemComponent
   ],
   imports: [
     MatButtonModule,
