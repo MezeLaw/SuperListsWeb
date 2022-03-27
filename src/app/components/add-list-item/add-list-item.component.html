@@ -29,7 +29,7 @@
            </div>
     
            <mat-card-actions class="pt-1 pb-1"> 
-               <button mat-raised-button (click)="createListItem()" [disabled]="!validTitle || !validDescription || isPristine || loading">Crear tarea</button> 
+               <button mat-raised-button [disabled]="!validTitle || !validDescription || isPristine || loading" (click)="createListItem()" >Crear tarea</button> 
                <button mat-stroked-button (click)="returnToList()">Volver a la lista</button> 
            </mat-card-actions>
       </mat-card>

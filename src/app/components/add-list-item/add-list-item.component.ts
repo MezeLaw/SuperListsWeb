@@ -22,7 +22,7 @@ export  interface ListItem {
 })
 export class AddListItemComponent implements OnInit {
 
-  loading : Boolean = false;
+  loading = false;
 
   newListItemForm!: FormGroup;
   constructor(private fb : FormBuilder, private route : ActivatedRoute, private _snackBar: MatSnackBar, private listItemService : ListItemService, private router : Router) {
@@ -63,9 +63,9 @@ export class AddListItemComponent implements OnInit {
   }
 
   createListItem(){
+    this.loading = true
     console.log("Entre al add list Item")
-    this.loading = true;
-
+   
     const listID = this.route.snapshot.paramMap.get('listId');
     console.log("ListID recovered is: ", listID)
     if (listID == null ){
@@ -86,9 +86,11 @@ export class AddListItemComponent implements OnInit {
           panelClass: 'red-snackbar'
         })
       } 
-      
+       
+      var listIDRequest: number = +listID;
+
       var listItemRequest: ListItem = {
-        list_id: listID, 
+        list_id: listIDRequest, 
         title: title, 
         description: description,
         ID: undefined,
@@ -99,13 +101,11 @@ export class AddListItemComponent implements OnInit {
 
       this.listItemService.createItem(listItemRequest).subscribe(response=>{
       console.log("Response del create: ", response)
+      this.loading = false
       this._snackBar.open("Lista creada exitosamente", "Cerrar", {
         duration: 7000,
         panelClass: 'green-snackbar'
       });
-
-      this.loading = false
-      
       }, (err : HttpErrorResponse)=>{
         console.log("Error from service on create list item: ", err)
       this.loading = false
@@ -128,8 +128,7 @@ export class AddListItemComponent implements OnInit {
           panelClass: 'red-snackbar'
         })
       }
-      })
-      this.loading = false
+      }) 
     }
   }
 

@@ -9,7 +9,7 @@ import { ListsService } from 'src/app/services/lists/lists.service';
 export  interface ListItem {
   ID: any
   CreatedAt : any
-  list_id : any
+  list_id : number
   user_id : any
   title : any
   description : any

@@ -67,6 +67,8 @@ export class ListItemService {
     
     let headers = new HttpHeaders({ "token" : token, "user_id": userId });
 
+    console.log("El body armado a enviar es: ", listItemRequest)
+
     return this.http.post<ListItem>(`${this.baseURL}`, listItemRequest, {headers : headers} );
   }
 }
