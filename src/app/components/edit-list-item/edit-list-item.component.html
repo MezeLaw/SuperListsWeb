@@ -1,0 +1,45 @@
+<body class="animate__animated animate__fadeIn"> 
+  
+
+    <div class="content" role="main">
+    
+      <mat-card class="card-color card-size card-align">
+          
+           <mat-card-title class="card-title-alig pt-1 pb-1">Editar tarea</mat-card-title> 
+           <div>   
+              <form [formGroup]="editListItemForm">
+   
+                  <div class="example-container margins">
+                      <mat-form-field appearance="fill">
+                      <mat-label class="label-field-color margins">Título</mat-label>
+                      <input matInput placeholder="Ej: Manzanas" formControlName="title" required> 
+                      <mat-error>{{getTitleMessageError()}}</mat-error> 
+                      </mat-form-field>
+                  </div>
+          
+                  <div class="example-container margins">
+                      <mat-form-field appearance="fill">
+                          <mat-label class="label-field-color">Descripcion</mat-label>
+                          <input matInput placeholder="Ver oferta, comprar 1kg" formControlName="description">
+                          <mat-error>{{getDescriptionErrorMessage()}}</mat-error> 
+                      </mat-form-field>
+                  </div>
+
+                  <div>
+                    <mat-checkbox (click)="markAsCompleted()" class="example-margin" [checked]="isCompleted"><span>Completada</span></mat-checkbox>
+                 </div>
+               
+              </form>
+           </div>
+    
+           <mat-card-actions class="pt-1 pb-1"> 
+               <button mat-raised-button [disabled]="!validTitle || !validDescription || loading" (click)="updateListItem()" >Guardar cambios</button> 
+               <button mat-stroked-button (click)="returnToList()">Volver a la lista</button> 
+           </mat-card-actions>
+      </mat-card>
+   
+   </div>
+  
+   
+  
+  </body>

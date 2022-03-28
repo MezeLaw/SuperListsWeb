@@ -71,4 +71,23 @@ export class ListItemService {
 
     return this.http.post<ListItem>(`${this.baseURL}`, listItemRequest, {headers : headers} );
   }
+
+  getListItem(id:any){
+    var token  = localStorage.getItem('token')
+
+    if( token == null ){
+      token = "invalidToken"
+    }
+
+    const decodedToken : DecodedToken = this.jwtHelper.decodeToken(token);
+    
+ 
+    var userId : any = decodedToken.UserID
+
+    console.log("UserID is: ", userId)
+
+    let headers = new HttpHeaders({ "token" : token, "user_id": userId });
+ 
+    return this.http.get<ListItem>(`${this.baseURL}${id}`, {headers : headers} );
+  }
 }

@@ -62,6 +62,22 @@ export class ViewListComponent implements OnInit {
 
   editListItem(id : any){
     console.log("entre al editListItem with listID: ", id)
+    this.loading = true
+
+    const listID = this.route.snapshot.paramMap.get('listId');
+    if (listID == null ){
+      this.loading = false
+      this.dataSource = []
+      this._snackBar.open("No es posible recuperar la tarea. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
+        duration: 7000,
+        panelClass: 'red-snackbar'
+      });
+    } else {
+      this.loading = false
+      this.router.navigate(['app/edit-task/', listID, id])
+    }
+
+    
   }
 
   deleteListItem(id : any){

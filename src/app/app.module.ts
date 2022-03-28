@@ -34,6 +34,7 @@ import { ViewListComponent } from './components/view-list/view-list.component';
 import { JoinListComponent } from './components/join-list/join-list.component';
 import { TaskIsCompletedPipe } from './pipes/task-is-completed.pipe';
 import { AddListItemComponent } from './components/add-list-item/add-list-item.component';
+import { EditListItemComponent } from './components/edit-list-item/edit-list-item.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { AddListItemComponent } from './components/add-list-item/add-list-item.c
     ViewListComponent,
     JoinListComponent,
     TaskIsCompletedPipe,
-    AddListItemComponent
+    AddListItemComponent,
+    EditListItemComponent
   ],
   imports: [
     MatButtonModule,
