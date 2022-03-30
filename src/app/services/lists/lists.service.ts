@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from '../../../environments/environment';
 
 export  interface ListItem {
   ID: any
@@ -42,7 +43,7 @@ export interface DecodedToken {
 })
 export class ListsService {
 
-  baseURL = 'http://localhost:8080/v1/lists/'; 
+  baseURL = environment.serverListsUrl; 
 
   lists: List[] = [];
 

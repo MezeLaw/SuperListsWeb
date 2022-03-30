@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt'; 
+import { environment } from '../../../environments/environment';
 
 export interface ProfileResponse {
   CreatedAt: string;
@@ -21,7 +22,7 @@ export interface DecodedToken {
 export class ProfileService { 
 
   //TODO no hardcodear esta address
-  baseURL = 'http://localhost:8080/v1/users/'; 
+  baseURL = environment.serverProfileUrl; 
 
   constructor(private http : HttpClient, private jwtHelper: JwtHelperService) { }
 

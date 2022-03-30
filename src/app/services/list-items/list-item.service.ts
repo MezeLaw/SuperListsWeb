@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ListItem } from 'src/app/components/view-list/view-list.component';
 import { DecodedToken } from '../lists/lists.service';
-
+import { environment } from '../../../environments/environment';
 
 export interface UpdateListItem {
   ID: any
@@ -19,7 +19,8 @@ export interface UpdateListItem {
 })
 export class ListItemService {
 
-  baseURL = 'http://localhost:8080/v1/listItems/'; 
+  //baseURL = 'http://localhost:8080/v1/listItems/'; 
+  baseURL = environment.serverListItemsUrl; 
 
   listItems: ListItem[] = [];
 

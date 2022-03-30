@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import "animate.css";
 
 export interface AuthResponse {
@@ -17,15 +18,14 @@ export interface LoginRequest {
 export class AuthServiceService {
   
   //TODO no hardcodear esta address
-  baseURL = 'http://localhost:8080/v1/auth';
-  loginURL = '/login'
+  baseURL = environment.serverAuthUrl; 
 
   constructor(private http : HttpClient) { }
 
   login(loginRequest : LoginRequest) {
     let headers = new HttpHeaders({ 
     });
-    return this.http.post<AuthResponse>(`${this.baseURL}${this.loginURL}`, loginRequest, {headers : headers} );
+    return this.http.post<AuthResponse>(`${this.baseURL}`, loginRequest, {headers : headers} );
   }
  
 }
