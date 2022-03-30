@@ -33,7 +33,7 @@
            </div>
     
            <mat-card-actions class="pt-1 pb-1"> 
-               <button mat-raised-button [disabled]="!validTitle || !validDescription || loading" (click)="updateListItem()" >Guardar cambios</button> 
+               <button mat-raised-button [disabled]="!validTitle || !validDescription || loading || isPristine" (click)="updateListItem()" >Guardar cambios</button> 
                <button mat-stroked-button (click)="returnToList()">Volver a la lista</button> 
            </mat-card-actions>
       </mat-card>
