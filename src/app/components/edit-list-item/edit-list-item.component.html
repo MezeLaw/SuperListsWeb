@@ -26,7 +26,7 @@
                   </div>
 
                   <div>
-                    <mat-checkbox formControlName="isDone" (click)="markAsCompleted()" class="example-margin" [checked]="isCompleted"><span>Completada</span></mat-checkbox>
+                    <mat-checkbox  formControlName="isDone" class="example-margin" (change)="updateStatus($event)"><span>Completada</span></mat-checkbox>
                  </div>
                
               </form>

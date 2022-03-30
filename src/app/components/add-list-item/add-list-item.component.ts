@@ -102,7 +102,7 @@ export class AddListItemComponent implements OnInit {
       this.listItemService.createItem(listItemRequest).subscribe(response=>{
       console.log("Response del create: ", response)
       this.loading = false
-      this._snackBar.open("Lista creada exitosamente", "Cerrar", {
+      this._snackBar.open("Tarea creada exitosamente", "Cerrar", {
         duration: 7000,
         panelClass: 'green-snackbar'
       });

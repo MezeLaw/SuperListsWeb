@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListItemService } from 'src/app/services/list-items/list-item.service';
@@ -163,6 +164,19 @@ export class EditListItemComponent implements OnInit {
     }
 
   }
+ 
+
+  public updateStatus(event: MatCheckboxChange) {
+
+    if (!event.source.checked) {
+      console.log("aprete el boton de updateStatus y es false")
+       this.isCompleted = false
+    } else {
+      console.log("aprete el boton de updateStatus y es true")
+      this.isCompleted = true
+    }
+ 
+ };
 
   updateListItem(){
     this.loading = true
@@ -175,7 +189,7 @@ export class EditListItemComponent implements OnInit {
       });
     }
 
-    const listItemID = this.route.snapshot.paramMap.get('listId');
+    const listItemID = this.route.snapshot.paramMap.get('listItemId');
     if (listItemID == null ){
       this.loading = false 
       this._snackBar.open("No es posible recuperar la tarea. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
