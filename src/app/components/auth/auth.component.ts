@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Route, Router } from '@angular/router'; 
 import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
@@ -125,12 +126,11 @@ export class AuthComponent implements OnInit {
   }
 
 
-  switchPasswordVisibility(){
-    this.showPassword = !this.showPassword
-    if (this.showPassword) {
-      this.inputPasswordFieldType = "text"
-    } else {
+  switchPasswordVisibility(event : MatCheckboxChange){
+    if (!event.source.checked) {
       this.inputPasswordFieldType = "password"
+    } else{
+      this.inputPasswordFieldType = "text"
     }
   }
 

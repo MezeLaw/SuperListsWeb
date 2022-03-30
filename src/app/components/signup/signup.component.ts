@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router'; 
 import { SignUpRequest, SignupService } from 'src/app/services/signup/signup.service';
@@ -126,12 +127,11 @@ export class SignupComponent implements OnInit {
     this.router.navigate(['auth']);
   }
 
-  switchPasswordVisibility(){
-    this.showPassword = !this.showPassword
-    if (this.showPassword) {
-      this.inputPasswordFieldType = "text"
-    } else {
+  switchPasswordVisibility(event : MatCheckboxChange){
+    if (!event.source.checked) {
       this.inputPasswordFieldType = "password"
+    } else{
+      this.inputPasswordFieldType = "text"
     }
   }
 
