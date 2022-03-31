@@ -35,6 +35,7 @@ import { JoinListComponent } from './components/join-list/join-list.component';
 import { TaskIsCompletedPipe } from './pipes/task-is-completed.pipe';
 import { AddListItemComponent } from './components/add-list-item/add-list-item.component';
 import { EditListItemComponent } from './components/edit-list-item/edit-list-item.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { EditListItemComponent } from './components/edit-list-item/edit-list-ite
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ClipboardModule,
   ], 
   providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, JwtHelperService],
   bootstrap: [AppComponent]

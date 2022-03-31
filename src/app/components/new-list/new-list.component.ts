@@ -48,8 +48,12 @@ export class NewListComponent implements OnInit {
 
     this.listService.create(name, description).subscribe(response => {
       console.log("Response del create: ", response)
+
+      this.newListForm.reset()
+      this.newListForm.markAsPristine()      
+
       this._snackBar.open("Lista creada exitosamente", "Cerrar", {
-        duration: 7000,
+        duration: 12000,
         panelClass: 'green-snackbar'
       });
 
