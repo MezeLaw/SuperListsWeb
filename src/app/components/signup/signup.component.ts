@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private fb : FormBuilder, private _snackBar: MatSnackBar, private route : ActivatedRoute, private router : Router, private signUpService : SignupService) {
     this.createSignUpForm()
-   }
+  }
 
   ngOnInit(): void {
   }
@@ -92,9 +92,12 @@ export class SignupComponent implements OnInit {
     this.signUpService.signUp(signUpRequest).
     subscribe(apiResponse => {  
       console.log(apiResponse)
-      this.loading = false
+      this.loading = false 
+      this.signUpForm.reset()
+      this.signUpForm.markAsPristine() 
+
       this._snackBar.open("Cuenta creada exitosamente. Inicie sesion para comenzar!", "Cerrar", {
-        duration: 7000,
+        duration: 12000,
         panelClass: 'green-snackbar'
       });
     },  (err:HttpErrorResponse)=>{

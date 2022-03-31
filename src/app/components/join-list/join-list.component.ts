@@ -22,12 +22,17 @@ export class JoinListComponent implements OnInit {
   }
 
   jointoList(){
+    this.loading = true
     const inviteCode = this.joinListForm.get('code')?.value
     console.log("JOIN TO LIST WITH CODE: ", )
     this.listService.joinList(inviteCode).subscribe(resp => {
+      
+      this.joinListForm.reset()
+      this.joinListForm.markAsPristine() 
+
       console.log("Volvi del join list con la siguiente rta: ", resp) 
       this._snackBar.open("Te uniste exitosamente a la lista", "Cerrar", {
-        duration: 7000,
+        duration: 12000,
         panelClass: 'green-snackbar'
       });
 
@@ -44,10 +49,18 @@ export class JoinListComponent implements OnInit {
         });
       }  
       else if(err.status == 500 ){
-        this._snackBar.open("Ocurrio un error al intentar unirse a la lista. Intentelo nuevamente", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
+  
+        if(err.error === "You are already on this list!!"){ 
+          this._snackBar.open("Ya estás en esta lista!", "Cerrar", {
+            duration: 7000,
+            panelClass: 'red-snackbar'
+          });
+        } else {
+          this._snackBar.open("Ocurrio un error al intentar unirse a la lista. Intentelo nuevamente", "Cerrar", {
+            duration: 7000,
+            panelClass: 'red-snackbar'
+          });
+        } 
       } else if (err.status == 404) {
         this._snackBar.open("El código ingresado no corresponde a ninguna lista!", "Cerrar", {
           duration: 7000,

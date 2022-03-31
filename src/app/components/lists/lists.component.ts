@@ -6,6 +6,7 @@ import { ListsService } from 'src/app/services/lists/lists.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 
+
 export interface List { 
   CreatedAt: any;
   DeletedAt: any;
@@ -32,8 +33,7 @@ export interface List {
     ]),
   ],
 })
-export class ListsComponent implements OnInit {
-
+export class ListsComponent implements OnInit { 
   columnsToDisplay: string[] = ['Nombre', 'Codigo'];
   lists : List[] = []
   expandedElement: List | null | undefined;

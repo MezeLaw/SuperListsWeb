@@ -75,3 +75,7 @@ tr.example-detail-row {
   .example-element-description-attribution {
     opacity: 0.5;
   }
+
+  .icon-display {
+    transform: scale(0.7);
+ }
