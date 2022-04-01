@@ -75,3 +75,24 @@ tr.example-detail-row {
   .example-element-description-attribution {
     opacity: 0.5;
   }
+
+  .delete-btn{
+    color:red
+  }
+
+  .icon-size {
+    transform: scale(0.7);
+ }
+
+ .add-btn{
+   background-color: lightskyblue;
+ }
+
+ .list-complete{
+  background-color:green;
+ }
+ 
+ .info-btn {
+   background-color: blue;
+ } 
+ 

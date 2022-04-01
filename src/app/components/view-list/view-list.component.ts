@@ -1,10 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { ListItemService } from 'src/app/services/list-items/list-item.service';
-import { ListsService } from 'src/app/services/lists/lists.service';
+import { SelectionModel } from '@angular/cdk/collections'; 
+import { Component  } from '@angular/core'; 
+import { MatTableDataSource } from '@angular/material/table'; 
+
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+} 
 
 export  interface ListItem {
   ID: any
@@ -15,6 +19,21 @@ export  interface ListItem {
   description : any
   is_done : boolean
 }
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  {position: 1, name: 'Comprar pastafrola de membrillo x2', weight: 1.0079, symbol: 'H'},
+  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
+  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
+  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
+  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
+  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
+  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
+  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
+  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
+  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+];
+
+
 @Component({
   selector: 'app-view-list',
   templateUrl: './view-list.component.html',
@@ -26,151 +45,37 @@ export  interface ListItem {
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
-})
-export class ViewListComponent implements OnInit {
-    
-  columnsToDisplay: string[] = ['title'];
-  listItems : ListItem[] = []
-  expandedElement: ListItem | null | undefined; 
-  dataSource : ListItem[]= []
-  loading : Boolean = true
+}) 
+export class ViewListComponent{
+  
+  displayedColumns: string[] = ['select', 'name', 'symbol'];
+  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  selection = new SelectionModel<PeriodicElement>(true, []);
 
-  constructor(private listService : ListsService, private router : Router, private route : ActivatedRoute, private _snackBar: MatSnackBar, private listItemService : ListItemService) { 
-
-    this.dataSource=  []
-    const listID = this.route.snapshot.paramMap.get('listId');
-    if (listID == null ){
-      this.loading = false
-      this.dataSource = []
-      this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
-        duration: 7000,
-        panelClass: 'red-snackbar'
-      });
-    } else {
-      this.getListItems(listID)
-    }
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
   }
 
-  ngOnInit(): void {
-  }
-
-  createItem(){
-    console.log("Entre al createItem method!");
-    const listID = this.route.snapshot.paramMap.get('listId');
-    this.router.navigate(['app/new-task/', listID])
-  }
-
-  editListItem(id : any){
-    console.log("entre al editListItem with listID: ", id)
-    this.loading = true
-
-    const listID = this.route.snapshot.paramMap.get('listId');
-    if (listID == null ){
-      this.loading = false
-      this.dataSource = []
-      this._snackBar.open("No es posible recuperar la tarea. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
-        duration: 7000,
-        panelClass: 'red-snackbar'
-      });
-    } else {
-      this.loading = false
-      this.router.navigate(['app/edit-task/', listID, id])
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
     }
 
-    
+    this.selection.select(...this.dataSource.data);
   }
 
-  deleteListItem(id : any){
-    this.loading = true
-    console.log("entre al deleteListItem with listID: ", id)
-    this.listItemService.deleteListItemByID(id).subscribe( resp => {
-        console.log("Deleted listItem withID: ", resp)
-        const listID = this.route.snapshot.paramMap.get('listId');
-    if (listID == null ){
-      this.loading = false
-      this.dataSource = []
-      this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
-        duration: 7000,
-        panelClass: 'red-snackbar'
-      });
-    } else {
-      this.loading = false
-      this.getListItems(listID)
-      this._snackBar.open("Se eliminó la tarea", "Cerrar", {
-        duration: 7000,
-        panelClass: 'green-snackbar'
-      });
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: PeriodicElement): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    }, (err: HttpErrorResponse)=>{
-      this.loading = false
-      console.log("Error when deleting listItem. Status code: ", err.status)
-      //this.loading = false
-      if (err.status == 401) {
-        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      }  else if (err.status == 400){
-        this._snackBar.open("Ocurrió un error al intentar eliminar la tarea deseada. Si el error persiste comuniquese con el adminstrador.", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      }
-      else if(err.status == 404 ){
-        this._snackBar.open("La tarea no existe! Si el error persiste comuniquese con el administrador.", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      } else {
-        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        })
-      }
-    })
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  returnToMyLists(){
-    console.log("Returning to my lists");
-    this.router.navigate(['app/lists'])
-  }
-
-  getListItems(listID : any){
-    this.listService.getListByID(listID).subscribe(response => {
-
-      this.listItems = response.list_items
-      this.dataSource = this.listItems
-      this.loading = false;
-    }, (err : HttpErrorResponse)=> {
-      console.log("Status code es: ", err.status)
-      this.loading = false
-      if (err.status == 401) {
-        
-        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      }  
-      else if(err.status == 404 ){
-        this._snackBar.open("La lista deseada no existe!", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      } else {
-        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        })
-      }
-    })
-  }
-
-  get haveTasks() : Boolean{
-    if (this.listItems == null || this.listItems.length < 1){
-      return false;
-    } else {
-      return true;
-    }
-  }
 
 }

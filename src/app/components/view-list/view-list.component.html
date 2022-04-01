@@ -12,91 +12,78 @@
     </mat-grid-list>
 
 
-    <div *ngIf="!haveTasks" class="text-style">
+    <div   class="text-style">
         <p>  
             Esta lista no tiene tareas! Podés agregar una haciendo click en agregar!
         </p>
     </div>
 
     <div class="demo-button-container text-style">
-        <button mat-raised-button [disabled]="loading" (click)="createItem()" class="demo-button">
-          Agregar tarea
+        <button mat-raised-button class="demo-button add-btn">
+          <mat-icon>add</mat-icon>
         </button>
+        <button mat-raised-button  color="warn"  class="demo-button">
+            <mat-icon class="icon-size" >delete</mat-icon>
+        </button>
+     
+        <button mat-raised-button  class="demo-button list-complete">
+          <mat-icon class="icon-size">checklist</mat-icon>
+        </button>
+ 
          
-
-        <button mat-raised-button [disabled]="loading" (click)="returnToMyLists()" class="demo-button">
-            Volver a mis listas
-          </button>
         <hr>
     </div> 
-     
- 
+    <div class="text-style">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-     <div class="text-style" *ngIf="haveTasks">
-        <table mat-table
-            [dataSource]="dataSource" multiTemplateDataRows
-            class="mat-elevation-z8">
-         
-          <ng-container matColumnDef="title">
-              <th mat-header-cell *matHeaderCellDef> Titulo </th>
-              <td mat-cell *matCellDef="let element"> {{element['title']}} </td>
-          </ng-container>  
-          <!-- 
-          <ng-container matColumnDef="completed">
-            <th mat-header-cell *matHeaderCellDef> Completada </th>
-            <td mat-cell *matCellDef="let element"> {{element['is_done'] | taskIsCompleted }}  </td>
-          </ng-container> 
-           -->
-            
-            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-            <ng-container matColumnDef="expandedDetail">
-                <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-                  <div class="example-element-detail"
-                      [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                      
-                    <span class="example-element-description-attribution"> Descripcion </span>
-                      <div class="example-element-description">
-                        {{element['description']}} 
-                      </div>
-                  </div>
-
-
-                  <div class="example-element-detail"
-                      [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                      
-                    <span class="example-element-description-attribution"> Tarea completada </span>
-                      <div class="example-element-description">
-                        {{element['is_done'] | taskIsCompleted }}
-                      </div>
-                  </div>
-
-                  <div class="example-element-detail"
-                      [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                      
-                    <span class="example-element-description-attribution"> Acciones </span>
-                      <div class="example-element-description"> 
-                      <br>
-                      <br>
-                      <button mat-raised-button color="accent" [disabled]="loading" (click)="editListItem(element['ID'])">Editar tarea</button> 
-                      <br>
-                      <br>
-                      <button mat-raised-button color="warn" [disabled]="loading" (click)="deleteListItem(element['ID'])">Eliminar</button>
-                      </div>
-                  </div>
-                  
-                </td>
-            </ng-container>
-            <!-- Estos son los headers de la tabla-->
-            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-            <!-- Esto es el row basicamente, el body de la tabla por linea-->
-            <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-                class="example-element-row"
-                [class.example-expanded-row]="expandedElement === element"
-                (click)="expandedElement = expandedElement === element ? null : element">
-            </tr>
-            <!-- Esto es el row cuando hago click aparcece-->
-            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-             
-        </table>
-     </div>
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+           <span>Hecho</span>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)"
+                        [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+    
+      <!-- Position Column
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container> -->
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Titulo </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+    
+      <!-- Weight Column
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Completada </th>
+        <td mat-cell *matCellDef="let element">  <mat-icon class="icon-size">check_circle</mat-icon> </td>
+      </ng-container>
+     -->
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef> Detalle </th>
+        <td mat-cell *matCellDef="let element"> 
+          <button mat-raised-button class="info-btn">
+            <mat-icon class="icon-size">info_outline</mat-icon>
+          </button>
+          
+        </td>
+        
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          (click)="selection.toggle(row)">
+      </tr>
+    </table>
+  </div>
 </div>
