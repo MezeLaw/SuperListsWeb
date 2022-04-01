@@ -34,7 +34,7 @@ export interface List {
   ],
 })
 export class ListsComponent implements OnInit { 
-  columnsToDisplay: string[] = ['Nombre', 'Codigo'];
+  columnsToDisplay: string[] = ['Nombre'];
   lists : List[] = []
   expandedElement: List | null | undefined;
   //dataSource = ELEMENT_DATA;

@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  serverAuthUrl: "http://186.22.45.250:8080/v1/auth/login",
-  serverSignUpUrl: "http://186.22.45.250:8080/v1/auth/signup",
-  serverListItemsUrl: "http://186.22.45.250:8080/v1/listItems/",
-  serverListsUrl: "http://186.22.45.250:8080/v1/lists/",
-  serverProfileUrl : "http://186.22.45.250:8080/v1/users/"
+  serverAuthUrl: "https://meze-superlists-api-v1.tk/v1/auth/login",
+  serverSignUpUrl: "https://meze-superlists-api-v1.tk/v1/auth/signup",
+  serverListItemsUrl: "https://meze-superlists-api-v1.tk/v1/listItems/",
+  serverListsUrl: "https://meze-superlists-api-v1.tk/v1/lists/",
+  serverProfileUrl : "https://meze-superlists-api-v1.tk/v1/users/"
 };

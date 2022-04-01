@@ -14,7 +14,8 @@ import { SignUpRequest, SignupService } from 'src/app/services/signup/signup.ser
 export class SignupComponent implements OnInit {
 
   signUpForm!: FormGroup; 
-  loading : boolean = false
+  loading : boolean = false 
+  fullCompleted : boolean = true
   showPassword : boolean = false
   inputPasswordFieldType = "password"
 
@@ -51,6 +52,16 @@ export class SignupComponent implements OnInit {
     })
 
     this.signUpForm.markAsPristine
+  }
+
+
+  isValidForm(e:any){
+    console.log("entre al isValid") 
+    if(this.signUpForm.get('email')?.value != "" && this.signUpForm.get('password')?.value != "" && this.signUpForm.get('name')?.value != "" ){ 
+      this.fullCompleted = true
+    } else { 
+      this.fullCompleted = false
+    }
   }
 
   getNameErrorMessage(){

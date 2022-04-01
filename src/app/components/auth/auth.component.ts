@@ -30,7 +30,7 @@ export class AuthComponent implements OnInit {
 
   showPassword : boolean = false
   inputPasswordFieldType : string = "password"
-
+  fullCompleted : boolean = false
   loading : boolean = false
 
   loginForm!: FormGroup; 
@@ -106,6 +106,14 @@ export class AuthComponent implements OnInit {
     return this.loginForm.pristine
   }
 
+  isValidForm(e:any){
+    console.log("entre al isValid") 
+    if(this.loginForm.get('email')?.value != "" && this.loginForm.get('password')?.value != ""){ 
+      this.fullCompleted = true
+    } else { 
+      this.fullCompleted = false
+    }
+  }
 
   createLoginForm(){ 
 

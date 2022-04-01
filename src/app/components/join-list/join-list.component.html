@@ -12,7 +12,7 @@
                   <div class="example-container margins">
                       <mat-form-field appearance="fill">
                       <mat-label class="label-field-color margins">Codigo de invitación</mat-label>
-                      <input matInput placeholder="Ej: abc1225-xasd7-aFylmz-0asd-1cf3" formControlName="code" required> 
+                      <input matInput placeholder="Ej: abc1225-xasd7-aFylmz-0asd-1cf3" formControlName="code" (input)="isValidForm($event)" required> 
                       <mat-error>{{getCodeMessageError()}}</mat-error> 
                       </mat-form-field>
                   </div> 
@@ -21,7 +21,7 @@
            </div>
     
            <mat-card-actions class="pt-1 pb-1"> 
-               <button mat-raised-button (click)="jointoList()" [disabled]="!validCode || isPristine || loading">Unirse</button> 
+               <button mat-raised-button (click)="jointoList()" [disabled]="isPristine || loading || !fullCompleted">Unirse</button> 
                <button mat-stroked-button (click)="returnToLists()">Volver a mis listas</button> 
            </mat-card-actions>
       </mat-card>

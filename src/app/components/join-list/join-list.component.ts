@@ -13,6 +13,7 @@ import { ListsService } from 'src/app/services/lists/lists.service';
 export class JoinListComponent implements OnInit {
   loading = false
   joinListForm!: FormGroup; 
+  fullCompleted : boolean = false
   
   constructor(private fb : FormBuilder, private _snackBar: MatSnackBar, private router : Router, private listService : ListsService) {
     this.createJoinListForm()
@@ -73,6 +74,16 @@ export class JoinListComponent implements OnInit {
         })
       }
     })
+  }
+
+
+  isValidForm(e:any){
+    console.log("entre al isValid") 
+    if(this.joinListForm.get('code')?.value != ""){ 
+      this.fullCompleted = true
+    } else { 
+      this.fullCompleted = false
+    }
   }
 
   returnToLists(){

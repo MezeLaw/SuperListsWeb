@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  serverAuthUrl: "http://186.22.45.250:8080/v1/auth/login",
-  serverSignUpUrl: "http://186.22.45.250:8080/v1/auth/signup",
-  serverListItemsUrl: "http://186.22.45.250:8080/v1/listItems/",
-  serverListsUrl: "http://186.22.45.250:8080/v1/lists/",
-  serverProfileUrl : "http://186.22.45.250:8080/v1/users/" 
+  serverAuthUrl: "http://localhost:8080/v1/auth/login",
+  serverSignUpUrl: "http://localhost:8080/v1/auth/signup",
+  serverListItemsUrl: "http://localhost:8080/v1/listItems/",
+  serverListsUrl: "http://localhost:8080/v1/lists/",
+  serverProfileUrl : "http://localhost:8080/v1/users/" 
 };
 
 /* para probar localhost para pegarle a un api aunque este dockerizada 

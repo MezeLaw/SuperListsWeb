@@ -16,7 +16,7 @@
              <div class="example-container margins">
                  <mat-form-field appearance="fill">
                  <mat-label class="label-field-color margins">Ingrese su email</mat-label>
-                 <input matInput placeholder="jose@ejemplo.com" formControlName="email" required> 
+                 <input matInput placeholder="jose@ejemplo.com" formControlName="email" required (input)="isValidForm($event)"> 
                  <mat-error>{{getEmailErrorMessage()}}</mat-error> 
                  </mat-form-field>
              </div>
@@ -24,7 +24,7 @@
              <div class="example-container margins">
                  <mat-form-field appearance="fill">
                     <mat-label class="label-field-color">Ingrese su contraseña</mat-label>
-                    <input matInput placeholder="contraseña" formControlName="password" type="{{inputPasswordFieldType}}">
+                    <input matInput placeholder="contraseña" formControlName="password" type="{{inputPasswordFieldType}}" (input)="isValidForm($event)">
                     <mat-error>{{getPasswordErrorMessage()}}</mat-error> 
                  </mat-form-field>
              </div>
@@ -38,7 +38,7 @@
  
  
          <mat-card-actions class="pt-1 pb-1"> 
-             <button mat-raised-button (click)="login()" [disabled]="!validEmail || !validPassword || isPristine || loading">Iniciar sesion</button> 
+             <button mat-raised-button (click)="login()" [disabled]="isPristine || loading || !fullCompleted">Iniciar sesion</button> 
              <button mat-stroked-button (click)="signUp()">Crear cuenta</button> 
          </mat-card-actions>
     </mat-card>
