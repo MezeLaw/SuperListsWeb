@@ -145,10 +145,10 @@ export class ListsComponent implements OnInit {
   }
 
   get haveLists() : Boolean{
-    if(this.lists == null || this.lists.length>0){
-      return true;
-    } else {
+    if(this.lists == null || this.lists.length<0){
       return false;
+    } else {
+      return true;
     }
   }
 

@@ -23,7 +23,7 @@ export  interface ListItem {
 export class AddListItemComponent implements OnInit {
 
   loading = false;
-
+  fullCompleted : boolean = false
   newListItemForm!: FormGroup;
   constructor(private fb : FormBuilder, private route : ActivatedRoute, private _snackBar: MatSnackBar, private listItemService : ListItemService, private router : Router) {
     this.createNewListItemForm(); 
@@ -52,6 +52,15 @@ export class AddListItemComponent implements OnInit {
   
   get isPristine(){ 
     return this.newListItemForm.pristine
+}
+
+
+isValidForm(e:any){  
+  if(this.newListItemForm.get('name')?.value != "" && this.newListItemForm.get('description')?.value != ""){ 
+    this.fullCompleted = true
+  } else { 
+    this.fullCompleted = false
+  }
 }
 
   getTitleMessageError(){

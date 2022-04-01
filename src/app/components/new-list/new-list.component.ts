@@ -25,7 +25,7 @@ export interface List {
 export class NewListComponent implements OnInit {
  
   loading = false
-
+  fullCompleted : boolean = false
   newListForm!: FormGroup; 
 
   constructor(private fb : FormBuilder, private _snackBar: MatSnackBar, private router : Router, private listService : ListsService) {
@@ -83,6 +83,14 @@ export class NewListComponent implements OnInit {
       }
     })
 
+  }
+
+  isValidForm(e:any){ 
+    if(this.newListForm.get('name')?.value != "" && this.newListForm.get('description')?.value != ""){ 
+      this.fullCompleted = true
+    } else { 
+      this.fullCompleted = false
+    }
   }
 
   returnToLists(){

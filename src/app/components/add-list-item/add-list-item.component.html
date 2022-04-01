@@ -12,15 +12,15 @@
                   <div class="example-container margins">
                       <mat-form-field appearance="fill">
                       <mat-label class="label-field-color margins">Título</mat-label>
-                      <input matInput placeholder="Ej: Manzanas" formControlName="title" required> 
+                      <input matInput placeholder="Ej: Manzanas" formControlName="title" required (input)="isValidForm($event)"> 
                       <mat-error>{{getTitleMessageError()}}</mat-error> 
                       </mat-form-field>
                   </div>
-          
+                
                   <div class="example-container margins">
                       <mat-form-field appearance="fill">
                           <mat-label class="label-field-color">Descripcion</mat-label>
-                          <input matInput placeholder="Ver oferta, comprar 1kg" formControlName="description">
+                          <input matInput placeholder="Ver oferta, comprar 1kg" formControlName="description" (input)="isValidForm($event)">
                           <mat-error>{{getDescriptionErrorMessage()}}</mat-error> 
                       </mat-form-field>
                   </div>
@@ -29,7 +29,7 @@
            </div>
     
            <mat-card-actions class="pt-1 pb-1"> 
-               <button mat-raised-button [disabled]="!validTitle || !validDescription || isPristine || loading" (click)="createListItem()" >Crear tarea</button> 
+               <button mat-raised-button [disabled]="isPristine || loading || !fullCompleted" (click)="createListItem()">Crear tarea</button> 
                <button mat-stroked-button (click)="returnToList()">Volver a la lista</button> 
            </mat-card-actions>
       </mat-card>

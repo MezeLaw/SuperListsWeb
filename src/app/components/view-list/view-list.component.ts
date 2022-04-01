@@ -29,7 +29,7 @@ export  interface ListItem {
 })
 export class ViewListComponent implements OnInit {
     
-  columnsToDisplay: string[] = ['title', 'completed'];
+  columnsToDisplay: string[] = ['title'];
   listItems : ListItem[] = []
   expandedElement: ListItem | null | undefined; 
   dataSource : ListItem[]= []

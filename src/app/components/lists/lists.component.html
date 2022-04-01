@@ -32,7 +32,7 @@
      
  
 
-     <div class="text-style">
+     <div class="text-style" *ngIf="haveLists">
         <table mat-table
             [dataSource]="dataSource" multiTemplateDataRows
             class="mat-elevation-z8">
