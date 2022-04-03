@@ -1,7 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections'; 
-import { Component  } from '@angular/core'; 
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit  } from '@angular/core'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table'; 
+import { ActivatedRoute, Router } from '@angular/router';
+import { ListsService } from 'src/app/services/lists/lists.service';
 
 export interface PeriodicElement {
   name: string;
@@ -46,16 +50,38 @@ const ELEMENT_DATA: PeriodicElement[] = [
     ]),
   ],
 }) 
-export class ViewListComponent{
+export class ViewListComponent implements OnInit{
   
-  displayedColumns: string[] = ['select', 'name', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['select', 'name', 'symbol', 'isDone'];
+  //dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
+  loading : boolean = true
+  listItems : ListItem[] = []
+  dataSource : ListItem[]= []
+
+  constructor(private route : ActivatedRoute, private router : Router, private listService : ListsService, private _snackBar: MatSnackBar){
+    this.dataSource=  []
+    const listID = this.route.snapshot.paramMap.get('listId');
+    if (listID == null ){
+      this.loading = false
+      this.dataSource = []
+      this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
+        duration: 7000,
+        panelClass: 'red-snackbar'
+      });
+    } else {
+      this.getListItems(listID)
+    }
+  }
+
+
+  ngOnInit(): void {
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSource.length;
     return numSelected === numRows;
   }
 
@@ -66,10 +92,11 @@ export class ViewListComponent{
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+   // this.selection.select(...this.dataSource.data);
   }
 
   /** The label for the checkbox on the passed row */
+  //checkboxLabel(row?: PeriodicElement): string {
   checkboxLabel(row?: PeriodicElement): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
@@ -77,5 +104,62 @@ export class ViewListComponent{
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
+
+  //FIN NUEVO table view
+
+
+  getListItems(listID : any){
+    this.listService.getListByID(listID).subscribe(response => {
+
+      //this.listItems = response.list_items
+      this.dataSource = response.list_items
+      this.loading = false;
+    }, (err : HttpErrorResponse)=> {
+      console.log("Status code es: ", err.status)
+      this.loading = false
+      if (err.status == 401) {
+        
+        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  
+      else if(err.status == 404 ){
+        this._snackBar.open("La lista deseada no existe!", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
+    })
+  }
+
+  createItem(){
+    console.log("Entre al createItem method!");
+    const listID = this.route.snapshot.paramMap.get('listId');
+    this.router.navigate(['app/new-task/', listID])
+  }
+
+  editListItem(id : any){
+    console.log("entre al editListItem with listID: ", id)
+    this.loading = true
+
+    const listID = this.route.snapshot.paramMap.get('listId');
+    if (listID == null ){
+      this.loading = false
+      this.dataSource = []
+      this._snackBar.open("No es posible recuperar la tarea. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
+        duration: 7000,
+        panelClass: 'red-snackbar'
+      });
+    } else {
+      this.loading = false
+      this.router.navigate(['app/edit-task/', listID, id])
+    } 
+  }
 
 }

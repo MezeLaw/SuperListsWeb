@@ -10,8 +10,7 @@
         </mat-grid-tile> 
     
     </mat-grid-list>
-
-
+ 
     <div   class="text-style">
         <p>  
             Esta lista no tiene tareas! Podés agregar una haciendo click en agregar!
@@ -20,14 +19,14 @@
 
     <div class="demo-button-container text-style">
         <button mat-raised-button class="demo-button add-btn">
-          <mat-icon>add</mat-icon>
+          <mat-icon (click)="createItem()">add</mat-icon>
         </button>
         <button mat-raised-button  color="warn"  class="demo-button">
-            <mat-icon class="icon-size" >delete</mat-icon>
+            <mat-icon class="icon-size" >delete </mat-icon>
         </button>
      
-        <button mat-raised-button  class="demo-button list-complete">
-          <mat-icon class="icon-size">checklist</mat-icon>
+        <button mat-raised-button (click)="masterToggle()" class="demo-button list-complete">
+          <mat-icon class="icon-size">checklist</mat-icon> Marcar completa
         </button>
  
          
@@ -37,9 +36,38 @@
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <!-- Checkbox Column -->
+      <!-- <ng-container matColumnDef="select">
+        
+          <th mat-header-cell *matHeaderCellDef>
+           <span>Hecho</span>
+        </th>
+         
+
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                        [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)"
+                        [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      -->
+      
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
-           <span>Hecho</span>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                        [aria-label]="checkboxLabel()">
+          </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
           <mat-checkbox (click)="$event.stopPropagation()"
@@ -49,7 +77,8 @@
           </mat-checkbox>
         </td>
       </ng-container>
-    
+
+
       <!-- Position Column
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef> No. </th>
@@ -57,9 +86,9 @@
       </ng-container> -->
     
       <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Titulo </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <ng-container matColumnDef="name" class="column-mgn">
+        <th mat-header-cell *matHeaderCellDef  class="column-mgn"> Titulo </th>
+        <td mat-cell *matCellDef="let element"  class="column-mgn"> {{element.title}} </td>
       </ng-container>
     
       <!-- Weight Column
@@ -72,12 +101,24 @@
       <ng-container matColumnDef="symbol">
         <th mat-header-cell *matHeaderCellDef> Detalle </th>
         <td mat-cell *matCellDef="let element"> 
-          <button mat-raised-button class="info-btn">
+          <button (click)="editListItem(element['ID'])" mat-raised-button class="info-btn">
             <mat-icon class="icon-size">info_outline</mat-icon>
           </button>
           
         </td>
         
+      </ng-container>
+
+
+      <ng-container matColumnDef="isDone">
+        
+          <th mat-header-cell *matHeaderCellDef>
+           <span>Hecho</span>
+        </th> 
+
+        <td mat-cell *matCellDef="let element">
+           <span>{{element['is_done'] | taskIsCompleted }}</span>
+        </td>
       </ng-container>
     
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
