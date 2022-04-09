@@ -2,8 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { SelectionModel } from '@angular/cdk/collections'; 
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit  } from '@angular/core'; 
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table'; 
+import { MatSnackBar } from '@angular/material/snack-bar'; 
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListsService } from 'src/app/services/lists/lists.service';
 
@@ -54,10 +53,11 @@ export class ViewListComponent implements OnInit{
   
   displayedColumns: string[] = ['select', 'name', 'symbol', 'isDone'];
   //dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  selection = new SelectionModel<ListItem>(true, []);
   loading : boolean = true
   listItems : ListItem[] = []
-  dataSource : ListItem[]= []
+  dataSource : ListItem[]= [] 
+
 
   constructor(private route : ActivatedRoute, private router : Router, private listService : ListsService, private _snackBar: MatSnackBar){
     this.dataSource=  []
@@ -91,31 +91,28 @@ export class ViewListComponent implements OnInit{
       this.selection.clear();
       return;
     }
-
-   // this.selection.select(...this.dataSource.data);
+   this.selection.select(...this.dataSource); 
   }
 
   /** The label for the checkbox on the passed row */
   //checkboxLabel(row?: PeriodicElement): string {
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
+  checkboxLabel(row?: ListItem): string {
+    if (!row) {  
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    }   
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.ID}`;
   }
 
 
   //FIN NUEVO table view
-
+ 
 
   getListItems(listID : any){
     this.listService.getListByID(listID).subscribe(response => {
-
-      //this.listItems = response.list_items
+ 
       this.dataSource = response.list_items
       this.loading = false;
-    }, (err : HttpErrorResponse)=> {
-      console.log("Status code es: ", err.status)
+    }, (err : HttpErrorResponse)=> { 
       this.loading = false
       if (err.status == 401) {
         
@@ -138,14 +135,12 @@ export class ViewListComponent implements OnInit{
     })
   }
 
-  createItem(){
-    console.log("Entre al createItem method!");
+  createItem(){ 
     const listID = this.route.snapshot.paramMap.get('listId');
     this.router.navigate(['app/new-task/', listID])
   }
 
-  editListItem(id : any){
-    console.log("entre al editListItem with listID: ", id)
+  editListItem(id : any){ 
     this.loading = true
 
     const listID = this.route.snapshot.paramMap.get('listId');
@@ -160,6 +155,24 @@ export class ViewListComponent implements OnInit{
       this.loading = false
       this.router.navigate(['app/edit-task/', listID, id])
     } 
+  }
+
+  get selectionIsEmpty(){ 
+    var selectedLists = this.selection.selected
+    if (selectedLists.length>0){
+      return false
+    } else {
+      return true
+    }
+  }
+
+
+  deleteTasks(){
+
+  }
+
+  updateTasksStatus(){
+    
   }
 
 }

@@ -21,11 +21,11 @@
         <button mat-raised-button class="demo-button add-btn">
           <mat-icon (click)="createItem()">add</mat-icon>
         </button>
-        <button mat-raised-button  color="warn"  class="demo-button">
+        <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty" (click)="deleteTasks()" class="demo-button">
             <mat-icon class="icon-size" >delete </mat-icon>
         </button>
      
-        <button mat-raised-button (click)="masterToggle()" class="demo-button list-complete">
+        <button mat-raised-button [disabled]="selectionIsEmpty" (click)="updateTasksStatus()" class="demo-button list-complete">
           <mat-icon class="icon-size">checklist</mat-icon> Marcar completa
         </button>
  
@@ -76,14 +76,7 @@
                         [aria-label]="checkboxLabel(row)">
           </mat-checkbox>
         </td>
-      </ng-container>
-
-
-      <!-- Position Column
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-      </ng-container> -->
+      </ng-container> 
     
       <!-- Name Column -->
       <ng-container matColumnDef="name" class="column-mgn">
@@ -91,13 +84,7 @@
         <td mat-cell *matCellDef="let element"  class="column-mgn"> {{element.title}} </td>
       </ng-container>
     
-      <!-- Weight Column
-      <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef> Completada </th>
-        <td mat-cell *matCellDef="let element">  <mat-icon class="icon-size">check_circle</mat-icon> </td>
-      </ng-container>
-     -->
-      <!-- Symbol Column -->
+       
       <ng-container matColumnDef="symbol">
         <th mat-header-cell *matHeaderCellDef> Detalle </th>
         <td mat-cell *matCellDef="let element"> 
