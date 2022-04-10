@@ -11,21 +11,21 @@
     
     </mat-grid-list>
  
-    <div   class="text-style">
+    <div  *ngIf="!haveTasks" class="text-style">
         <p>  
             Esta lista no tiene tareas! Podés agregar una haciendo click en agregar!
         </p>
     </div>
 
     <div class="demo-button-container text-style">
-        <button mat-raised-button class="demo-button add-btn">
+        <button mat-raised-button [disabled]="loading" class="demo-button add-btn">
           <mat-icon (click)="createItem()">add</mat-icon>
         </button>
-        <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty" (click)="deleteTasks()" class="demo-button">
+        <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty || loading" (click)="deleteTasks()" class="demo-button">
             <mat-icon class="icon-size" >delete </mat-icon>
         </button>
      
-        <button mat-raised-button [disabled]="selectionIsEmpty" (click)="updateTasksStatus()" class="demo-button list-complete">
+        <button mat-raised-button [disabled]="selectionIsEmpty || loading" (click)="updateTasksStatus()" class="demo-button list-complete">
           <mat-icon class="icon-size">checklist</mat-icon> Marcar completa
         </button>
  
