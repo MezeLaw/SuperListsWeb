@@ -222,7 +222,9 @@ export class ViewListComponent implements OnInit{
   }
 
   updateTasksStatus(){
+    console.log("Will delete the next tasks: ", this.selection.selected)
     
+    var listItemsToDelete = this.selection.selected
   }
 
   get haveTasks() : Boolean{

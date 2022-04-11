@@ -92,7 +92,7 @@ table {
   background-color: lightskyblue;
 }
 
-.list-complete{
+.list-item-complete{
   background-color:green;
 }
  
@@ -103,4 +103,13 @@ table {
 .column-mgn {
   margin-right: 1000px;
   margin-left: 1000px;
+}
+
+.btn-margins {
+  margin-right: 5px;
+  margin-top: 5px;
+} 
+
+.list-item-pending {
+  background-color:red;
 }

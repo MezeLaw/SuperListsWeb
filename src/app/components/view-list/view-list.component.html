@@ -18,18 +18,20 @@
     </div>
 
     <div class="demo-button-container text-style">
-        <button mat-raised-button [disabled]="loading" class="demo-button add-btn">
-          <mat-icon (click)="createItem()">add</mat-icon>
+        <button mat-raised-button [disabled]="loading" class="demo-button add-btn btn-margins">
+          <mat-icon (click)="createItem()">add</mat-icon> Nueva tarea
         </button>
-        <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty || loading" (click)="deleteTasks()" class="demo-button">
-            <mat-icon class="icon-size" >delete </mat-icon>
+        
+        <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty || loading" (click)="deleteTasks()" class="demo-button btn-margins">
+            <mat-icon class="icon-size" >delete </mat-icon> Eliminar tarea
         </button>
      
-        <button mat-raised-button [disabled]="selectionIsEmpty || loading" (click)="updateTasksStatus()" class="demo-button list-complete">
-          <mat-icon class="icon-size">checklist</mat-icon> Marcar completa
+        <button mat-raised-button [disabled]="selectionIsEmpty || loading" (click)="updateTasksStatus()" class="demo-button list-item-complete btn-margins">
+          <mat-icon class="icon-size">done</mat-icon> Marcar completa
+        </button> 
+         <button mat-raised-button [disabled]="selectionIsEmpty || loading" (click)="updateTasksStatus()" class="demo-button list-item-pending btn-margins">
+          <mat-icon class="icon-size">lock_clock</mat-icon> Marcar pendiente
         </button>
- 
-         
         <hr>
     </div> 
     <div class="text-style">
