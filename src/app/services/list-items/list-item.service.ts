@@ -137,4 +137,40 @@ export class ListItemService {
     //Will return the deleted listItem ID
     return this.http.post<number>(`${this.baseURL}bulkDelete`, listItems, {headers : headers});
   }
+
+
+  markListItemsAsPending(listItems : ListItem[]){
+    var token  = localStorage.getItem('token')
+
+    if( token == null ){
+      token = "invalidToken"
+    }
+
+    const decodedToken : DecodedToken = this.jwtHelper.decodeToken(token);
+     
+    var userId : any = decodedToken.UserID
+ 
+
+    let headers = new HttpHeaders({ "token" : token, "user_id": userId });
+    //Will return the deleted listItem ID
+    return this.http.post<number>(`${this.baseURL}markAsPending`, listItems, {headers : headers});
+  }
+
+
+  markListItemsAsCompleted(listItems : ListItem[]){
+    var token  = localStorage.getItem('token')
+
+    if( token == null ){
+      token = "invalidToken"
+    }
+
+    const decodedToken : DecodedToken = this.jwtHelper.decodeToken(token);
+     
+    var userId : any = decodedToken.UserID
+ 
+
+    let headers = new HttpHeaders({ "token" : token, "user_id": userId });
+    //Will return the deleted listItem ID
+    return this.http.post<number>(`${this.baseURL}markAsCompleted`, listItems, {headers : headers});
+  }
 }

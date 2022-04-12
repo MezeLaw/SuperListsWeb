@@ -176,7 +176,7 @@ export class ViewListComponent implements OnInit{
 
     this.loading = true
 
-    if (this)
+    //TODO validar que no este vacia if (this)
 
     this.listItemService.deleteListsItems(listItemsToDelete).subscribe(resp =>{
 
@@ -221,10 +221,107 @@ export class ViewListComponent implements OnInit{
 
   }
 
-  updateTasksStatus(){
+  markAsCompleted(){
     console.log("Will delete the next tasks: ", this.selection.selected)
+    var listItemsToMarkAsCompleted = this.selection.selected
+ 
+
+    this.loading = true
+
+    //TODO validar que no este vacia if (this)
+
+    this.listItemService.markListItemsAsCompleted(listItemsToMarkAsCompleted).subscribe(resp =>{
+
+      const listID = this.route.snapshot.paramMap.get('listId');
+      if (listID == null ){
+        this.loading = false
+        this.dataSource = []
+        this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this.selection.clear()
+        this.getListItems(listID)
+      }
+      
+      this._snackBar.open("Tarea completada", "Cerrar", {
+        duration: 12000,
+        panelClass: 'green-snackbar'
+      });
+
+    }, (err: HttpErrorResponse) => {
+      this.loading = false
+      if (err.status == 401) {
+        
+        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  
+      else if(err.status == 404 ){
+        this._snackBar.open("La tarea no se pudo actualizar", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
+    })
+  }
+
+  markAsPending(){
+    console.log("Will delete the next tasks: ", this.selection.selected)
+    var listItemsToMarkAsPending = this.selection.selected
+    this.loading = true
+
+    //TODO validar que no este vacia if (this)
+
+    this.listItemService.markListItemsAsPending(listItemsToMarkAsPending).subscribe(resp =>{
+
+      const listID = this.route.snapshot.paramMap.get('listId');
+      if (listID == null ){
+        this.loading = false
+        this.dataSource = []
+        this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this.selection.clear()
+        this.getListItems(listID)
+      }
+      
+      this._snackBar.open("Tareas pendiente", "Cerrar", {
+        duration: 12000,
+        panelClass: 'green-snackbar'
+      });
+
+    }, (err: HttpErrorResponse) => {
+      this.loading = false
+      if (err.status == 401) {
+        
+        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  
+      else if(err.status == 404 ){
+        this._snackBar.open("La tarea no se pudo actualizar", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
+    })
     
-    var listItemsToDelete = this.selection.selected
   }
 
   get haveTasks() : Boolean{
