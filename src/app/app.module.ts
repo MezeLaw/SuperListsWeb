@@ -20,6 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule  } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
@@ -36,6 +37,7 @@ import { TaskIsCompletedPipe } from './pipes/task-is-completed.pipe';
 import { AddListItemComponent } from './components/add-list-item/add-list-item.component';
 import { EditListItemComponent } from './components/edit-list-item/edit-list-item.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,8 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     JoinListComponent,
     TaskIsCompletedPipe,
     AddListItemComponent,
-    EditListItemComponent
+    EditListItemComponent,
+    DeleteDialogComponent
   ],
   imports: [
     MatButtonModule,
@@ -68,6 +71,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     MatCheckboxModule,
     MatTableModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

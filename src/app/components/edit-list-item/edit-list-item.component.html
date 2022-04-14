@@ -1,11 +1,19 @@
 <body class="animate__animated animate__fadeIn"> 
-  
+    
+    <div *ngIf="loading" class="spinner">
+        <mat-progress-spinner 
+        class="example-margin"
+        [color]="'accent'"
+        [mode]="'indeterminate'"
+        [diameter]="50">
+        </mat-progress-spinner>
+    </div>
 
-    <div class="content" role="main">
+    <div *ngIf="!loading" class="content" role="main">
     
       <mat-card class="card-color card-size card-align">
           
-           <mat-card-title class="card-title-alig pt-1 pb-1">Editar tarea</mat-card-title> 
+           <mat-card-title class="card-title-alig pt-1 pb-1">Detalles de la tarea</mat-card-title> 
            <div>   
               <form [formGroup]="editListItemForm">
    
@@ -19,9 +27,8 @@
           
                   <div class="example-container margins">
                       <mat-form-field appearance="fill">
-                          <mat-label class="label-field-color">Descripcion</mat-label>
+                          <mat-label class="label-field-color">Descripcion (opcional)</mat-label>
                           <input matInput placeholder="Ver oferta, comprar 1kg" formControlName="description">
-                          <mat-error>{{getDescriptionErrorMessage()}}</mat-error> 
                       </mat-form-field>
                   </div>
 
@@ -31,11 +38,19 @@
                
               </form>
            </div>
-    
-           <mat-card-actions class="pt-1 pb-1"> 
-               <button mat-raised-button [disabled]="!validTitle || !validDescription || loading || isPristine" (click)="updateListItem()" >Guardar cambios</button> 
-               <button mat-stroked-button (click)="returnToList()">Volver a la lista</button> 
-           </mat-card-actions>
+           
+           <div *ngIf="!updating">
+               <button mat-raised-button [disabled]="!validTitle || !validDescription || loading || isPristine" (click)="updateListItem()" class="btn-margins save-btn">Guardar cambios</button> 
+               <button mat-stroked-button (click)="returnToList()" class="btn-margins return-btn">Volver a la lista</button> 
+            </div>
+                <div *ngIf="updating" class="spinner">
+                    <mat-progress-spinner 
+                    class="example-margin"
+                    [color]="'accent'"
+                    [mode]="'indeterminate'"
+                    [diameter]="30">
+                    </mat-progress-spinner>
+                </div>
       </mat-card>
    
    </div>

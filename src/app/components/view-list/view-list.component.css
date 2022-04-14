@@ -21,57 +21,50 @@
     margin-left: 25px;
     margin-right: 25px;
 }
-
-.encuesta-style {
-    margin-top: 50px;
-}
-
+ 
 table {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
+ 
+.delete-btn{
+  color:red
+}  
 
-tr.example-detail-row {
-    height: 0;
-  }
-  
-  tr.example-element-row:not(.example-expanded-row):hover {
-    background: whitesmoke;
-  }
-  
-  tr.example-element-row:not(.example-expanded-row):active {
-    background: #efefef;
-  }
-  
-  .example-element-row td {
-    border-bottom-width: 0;
-  }
-  
-  .example-element-detail {
-    overflow: hidden;
-    display: flex;
-  }
-  
-  .example-element-diagram {
-    min-width: 80px;
-    border: 2px solid black;
-    padding: 8px;
-    font-weight: lighter;
-    margin: 8px 0;
-    height: 104px;
-  }
-  
-  .example-element-symbol {
-    font-weight: bold;
-    font-size: 40px;
-    line-height: normal;
-  }
-  
-  .example-element-description {
-    padding: 16px;
-  }
-  
-  .example-element-description-attribution {
-    opacity: 0.5;
-  }
+.icon-size {
+  transform: scale(0.7);
+}
+
+.add-btn{
+  background-color: lightskyblue;
+}
+
+.list-item-complete{
+  background-color:green;
+}
+ 
+.info-btn {
+  background-color: lightskyblue;
+}  
+
+.column-mgn {
+  margin-right: 1000px;
+  margin-left: 1000px;
+}
+
+.btn-margins {
+  margin-right: 5px;
+  margin-top: 5px;
+} 
+
+.list-item-pending {
+  background-color:red;
+}
+
+.spinner {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

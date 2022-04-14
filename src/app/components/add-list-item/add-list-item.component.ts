@@ -23,6 +23,7 @@ export  interface ListItem {
 export class AddListItemComponent implements OnInit {
 
   loading = false;
+  updating = false;
   fullCompleted : boolean = false
   newListItemForm!: FormGroup;
   constructor(private fb : FormBuilder, private route : ActivatedRoute, private _snackBar: MatSnackBar, private listItemService : ListItemService, private router : Router) {
@@ -36,7 +37,7 @@ export class AddListItemComponent implements OnInit {
 
     this.newListItemForm = this.fb.group({
       title: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['']
     })
 
     this.newListItemForm.markAsPristine
@@ -56,7 +57,7 @@ export class AddListItemComponent implements OnInit {
 
 
 isValidForm(e:any){  
-  if(this.newListItemForm.get('name')?.value != "" && this.newListItemForm.get('description')?.value != ""){ 
+  if(this.newListItemForm.get('name')?.value != ""){ 
     this.fullCompleted = true
   } else { 
     this.fullCompleted = false
@@ -72,13 +73,13 @@ isValidForm(e:any){
   }
 
   createListItem(){
-    this.loading = true
+    this.updating = true
     console.log("Entre al add list Item")
    
     const listID = this.route.snapshot.paramMap.get('listId');
     console.log("ListID recovered is: ", listID)
     if (listID == null ){
-      this.loading = false 
+      this.updating = false 
       this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
         duration: 7000,
         panelClass: 'red-snackbar'
@@ -89,7 +90,7 @@ isValidForm(e:any){
       const description = this.newListItemForm.get('description')?.value
 
       if (title == null || description == null ) {
-        this.loading = false;
+        this.updating = false;
         this._snackBar.open("Ingrese un titulo y/o descripción", "Cerrar", {
           duration: 7000,
           panelClass: 'red-snackbar'
@@ -112,14 +113,14 @@ isValidForm(e:any){
       console.log("Response del create: ", response)
       this.newListItemForm.reset()
       this.newListItemForm.markAsPristine()
-      this.loading = false
+      this.updating = false
       this._snackBar.open("Tarea creada exitosamente", "Cerrar", {
         duration: 12000,
         panelClass: 'green-snackbar'
       });
       }, (err : HttpErrorResponse)=>{
         console.log("Error from service on create list item: ", err)
-      this.loading = false
+      this.updating = false
       console.log("Status code es: ", err.status)
 
       if (err.status == 400) {

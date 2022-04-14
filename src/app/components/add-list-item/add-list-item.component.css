@@ -63,3 +63,23 @@ input{
 mat-form-field {
     width: 100%;
 }
+
+.add-btn{
+    background-color:green;
+}
+    
+.return-btn {
+    background-color: red;
+}  
+
+.btn-margins {
+    margin-right: 5px;
+    margin-top: 5px;
+} 
+
+.spinner {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

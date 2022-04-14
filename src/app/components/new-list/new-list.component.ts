@@ -25,6 +25,7 @@ export interface List {
 export class NewListComponent implements OnInit {
  
   loading = false
+  creatingList = false
   fullCompleted : boolean = false
   newListForm!: FormGroup; 
 
@@ -38,7 +39,7 @@ export class NewListComponent implements OnInit {
 
   createList() {
     
-    this.loading = true
+    this.creatingList = true
 
     console.log("Will create the list")
     const name = this.newListForm.get('name')?.value
@@ -57,7 +58,7 @@ export class NewListComponent implements OnInit {
         panelClass: 'green-snackbar'
       });
 
-      this.loading = false
+      this.creatingList = false
 
     }, (err: HttpErrorResponse) => {
       console.log("Error from service on create list: ", err)

@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ListsService } from 'src/app/services/lists/lists.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SelectionModel } from '@angular/cdk/collections';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 
 export interface List { 
@@ -33,30 +35,22 @@ export interface List {
     ]),
   ],
 })
-export class ListsComponent implements OnInit { 
-  columnsToDisplay: string[] = ['Nombre'];
-  lists : List[] = []
-  expandedElement: List | null | undefined;
-  //dataSource = ELEMENT_DATA;
-  dataSource = this.lists;
+export class ListsComponent implements OnInit {   
+  dataSource : List[] = []
   loading = true
+  displayedColumns: string[] = ['select', 'name', 'inviteCode', 'viewList'];
+  selection = new SelectionModel<List>(true, []);
+
 
   constructor(private listService : ListsService, public dialog: MatDialog, private router : Router, private _snackBar: MatSnackBar) {
-
-   //Llamo al servicio del listas 
-   this.getListForUser()
-   // Si corresponde las asigno  no y actualizo el valor de haveLists
-
- 
+   this.getListForUser() 
   }
 
   createList(){
     console.log("Will go to new list form")
     this.router.navigate(['app/new-list'])
   }
-
-  ngOnInit(): void {
-  }
+ 
 
   getList(id : any){
     console.log("ID recibido: ", id) 
@@ -67,54 +61,16 @@ export class ListsComponent implements OnInit {
     console.log("Will go to new list form")
     this.router.navigate(['app/join-list'])
   }
-
-  deleteList(id : any ) {
-    console.log("Ud va a deletear la lista con id: ", id)
-      //this.dataSource = this.dataToDisplay.slice(0, -1);
-   // this.dataSource.setData(this.dataToDisplay);
-    this.loading = true
-   //Elimino, si todo sale ok, llamo al request y actualizo tablas
-    this.listService.deleteListByID(id).subscribe(resp => {
-      console.log("list deleted. will refresh the lists ")
-      this.getListForUser()
-      this._snackBar.open("Se eliminó la lista", "Cerrar", {
-        duration: 7000,
-        panelClass: 'green-snackbar'
-      });
-    }, (err : HttpErrorResponse) => {
-      console.log("error when trying to delete list ")
-      this.loading = false 
-      if (err.status == 401) {
-        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      }  else if (err.status == 400){
-        this._snackBar.open("Ocurrió un error al eliminar la lista. Si el error persiste comuniquese con el adminstrador.", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      }
-      else if(err.status == 404 ){
-        this._snackBar.open("La lista no existe! Si el error persiste comuniquese con el administrador.", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      } else {
-        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        })
-      }
-    })  
-  }
-
+ 
   getListForUser() {
     this.loading = true
     this.listService.getLists().subscribe( response => {
       console.log("Resultado del get Lists: ", response)
-      this.lists = response
-      this.dataSource = this.lists
+      if (response == null) {
+        this.dataSource = []
+      } else {
+        this.dataSource = response
+      }
       this.loading = false
     }, (err:HttpErrorResponse) => {
       this.loading = false
@@ -145,14 +101,111 @@ export class ListsComponent implements OnInit {
   }
 
   get haveLists() : Boolean{
-    if(this.lists == null || this.lists.length<0){
+    if(this.dataSource == null || this.dataSource.length<0){
+      return false;
+    } else {
+      return true;
+    }
+  }
+ 
+
+  ngOnInit(): void {
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+   this.selection.select(...this.dataSource); 
+  }
+
+  /** The label for the checkbox on the passed row */
+  //checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: List): string {
+    if (!row) {  
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }   
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.ID}`;
+  }
+  
+  get selectionIsEmpty(){ 
+    var selectedLists = this.selection.selected
+    if (selectedLists.length>0){
+      return false
+    } else {
+      return true
+    }
+  }
+
+  get haveTasks() : Boolean{
+    if (this.dataSource == null || this.dataSource.length < 1){
       return false;
     } else {
       return true;
     }
   }
 
-  
- 
-   
+  deleteLists(){
+    console.log("Will delete the next lists: ", this.selection.selected)
+    
+    var listsToDelete = this.selection.selected
+
+    this.loading = true
+
+    //TODO validar que no este vacia if (this)
+
+    this.listService.deleteLists(listsToDelete).subscribe(resp =>{
+      this.selection.clear()
+      var listResponse = this.getListForUser()
+      if (listResponse  == null ){
+        this.dataSource = []
+      }
+      
+      this._snackBar.open("Listas eliminadas exitosamente", "Cerrar", {
+        duration: 12000,
+        panelClass: 'green-snackbar'
+      });
+      
+    }, (err: HttpErrorResponse) => {
+      this.loading = false
+      if (err.status == 401) {
+        
+        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  
+      else if(err.status == 404 ){
+        this._snackBar.open("Una o mas de una lista no existe!", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
+    })
+  }
+
+  deleteListsDialog(){
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.deleteLists()
+      }
+    });
+  }
 }

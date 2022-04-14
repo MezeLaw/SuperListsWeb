@@ -26,6 +26,7 @@ export class EditListItemComponent implements OnInit {
   loading = true;
   editListItemForm!: FormGroup;
   isCompleted!: boolean; 
+  updating = false;
 
   updateListItemRequest: UpdateListItem = {
     ID: undefined,
@@ -98,7 +99,7 @@ export class EditListItemComponent implements OnInit {
   createEditListItemForm(){
     this.editListItemForm = this.fb.group({ 
       title: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       isDone: [Boolean, Validators.required]
     })
   }
@@ -179,10 +180,10 @@ export class EditListItemComponent implements OnInit {
  };
 
   updateListItem(){
-    this.loading = true
+    this.updating = true
     const listID = this.route.snapshot.paramMap.get('listId');
     if (listID == null ){
-      this.loading = false 
+      this.updating = false 
       this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
         duration: 7000,
         panelClass: 'red-snackbar'
@@ -191,7 +192,7 @@ export class EditListItemComponent implements OnInit {
 
     const listItemID = this.route.snapshot.paramMap.get('listItemId');
     if (listItemID == null ){
-      this.loading = false 
+      this.updating = false 
       this._snackBar.open("No es posible recuperar la tarea. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
         duration: 7000,
         panelClass: 'red-snackbar'
@@ -218,7 +219,7 @@ export class EditListItemComponent implements OnInit {
   
   
       this.listItemService.update(updateRequest).subscribe(resp => {
-        this.loading = false
+        this.updating = false
         console.log("Se actualizó correctamente la tarea. Resp: ",resp)
         this._snackBar.open("Tarea actualizada exitosamente", "Cerrar", {
           duration: 7000,
@@ -226,7 +227,7 @@ export class EditListItemComponent implements OnInit {
         });
       }, (err: HttpErrorResponse)=>{
         console.log("Error al intentar actualizad la tarea: ", err)
-        this.loading = false
+        this.updating = false
         if (err.status == 400) {
           this._snackBar.open("Algun dato de los ingresados no pudo ser procesado correctamente. Intentelo nuevamente", "Cerrar", {
             duration: 7000,

@@ -27,11 +27,21 @@
              
             </form>
          </div>
-  
-         <mat-card-actions class="pt-1 pb-1"> 
-             <button mat-raised-button (click)="createList()" [disabled]="isPristine || loading || !fullCompleted">Crear lista</button> 
-             <button mat-stroked-button (click)="returnToLists()">Volver a mis listas</button> 
-         </mat-card-actions>
+   
+        <div *ngIf="!creatingList" class="text-style">
+            <button mat-raised-button (click)="createList()" [disabled]="isPristine || loading || !fullCompleted" class="btn-margins add-btn">Crear lista</button> 
+            <button mat-stroked-button (click)="returnToLists()" class="btn-margins return-btn">Volver a mis listas</button> 
+        </div> 
+
+        <div *ngIf="creatingList" class="spinner">
+            <mat-progress-spinner 
+            class="example-margin"
+            [color]="'accent'"
+            [mode]="'indeterminate'"
+            [diameter]="30">
+            </mat-progress-spinner>
+        </div>
+
     </mat-card>
  
  </div>

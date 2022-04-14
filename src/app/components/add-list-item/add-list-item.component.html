@@ -19,19 +19,28 @@
                 
                   <div class="example-container margins">
                       <mat-form-field appearance="fill">
-                          <mat-label class="label-field-color">Descripcion</mat-label>
+                          <mat-label class="label-field-color">Descripcion (opcional)</mat-label>
                           <input matInput placeholder="Ver oferta, comprar 1kg" formControlName="description" (input)="isValidForm($event)">
-                          <mat-error>{{getDescriptionErrorMessage()}}</mat-error> 
                       </mat-form-field>
                   </div>
                
               </form>
            </div>
-    
-           <mat-card-actions class="pt-1 pb-1"> 
-               <button mat-raised-button [disabled]="isPristine || loading || !fullCompleted" (click)="createListItem()">Crear tarea</button> 
-               <button mat-stroked-button (click)="returnToList()">Volver a la lista</button> 
-           </mat-card-actions>
+
+           <div *ngIf="!updating">
+            <button mat-raised-button [disabled]="isPristine || loading || updating || !fullCompleted" (click)="createListItem()" class="btn-margins add-btn">Crear tarea</button> 
+            <button mat-stroked-button (click)="returnToList()" [disabled]="updating || loading" class="btn-margins return-btn">Volver a la lista</button> 
+           </div>
+
+           <div *ngIf="updating" class="spinner">
+                <mat-progress-spinner 
+                class="example-margin"
+                [color]="'accent'"
+                [mode]="'indeterminate'"
+                [diameter]="30">
+                </mat-progress-spinner>
+            </div>
+
       </mat-card>
    
    </div>

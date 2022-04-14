@@ -1,99 +1,117 @@
 <div class="animate__animated animate__fadeIn">
-    <mat-grid-list [cols]="1" rowHeight="70px" class="grid-list-styles">
-        <mat-grid-tile 
-            [colspan]="1"
-            [rowspan]="1"
-            [style.background]="">
-            <h1 class="title-styles">Mis listas</h1>    
-            <mat-divider class="divider-style"></mat-divider>
-             
-        </mat-grid-tile> 
-    
-    </mat-grid-list>
+  <mat-grid-list [cols]="1" rowHeight="70px" class="grid-list-styles">
+      <mat-grid-tile 
+          [colspan]="1"
+          [rowspan]="1"
+          [style.background]="">
+          <h1 class="title-styles">Mis Listas</h1>    
+          <mat-divider class="divider-style"></mat-divider>
+           
+      </mat-grid-tile> 
+  
+  </mat-grid-list>
 
+  <div  *ngIf="!haveTasks" class="text-style">
+      <p>  
+          No tenés listas! Podés crear una haciendo click en el botón 'Nueva Lista'
+      </p>
+  </div>
 
-    <div *ngIf="!haveLists" class="text-style">
-        <p>  
-           ¡No tenes ninguna lista! Recorda que desde aca podras visualizar todas las listas en las que participás sin importar si la creaste vos o te uniste por invitación.
-        </p>
-    </div>
-
-    <div class="demo-button-container text-style">
-        <button mat-raised-button [disabled]="loading" (click)="createList()" class="demo-button">
-          Crear lista
-        </button>
-        <button
+  <div class="demo-button-container text-style">
+      <button mat-raised-button [disabled]="loading" class="demo-button add-btn btn-margins" (click)="createList()">
+        <mat-icon>add</mat-icon> Nueva lista
+      </button>
+      
+      <button
             mat-raised-button 
-            class="demo-button" [disabled]="loading" (click)="joinListByCode()" class="demo-button">
-          Unirse a lista
-        </button>
-        <hr>
-    </div> 
+            class="demo-button" [disabled]="loading" (click)="joinListByCode()" class="demo-button join-btn btn-margins">
+            <mat-icon>playlist_add</mat-icon> Unirse a lista
+      </button>
+
+      <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty || loading" (click)="deleteListsDialog()" class="demo-button btn-margins">
+          <mat-icon class="icon-size" >delete </mat-icon> Eliminar listas
+      </button>
+    
+      <hr>
+  </div> 
+  <div class="text-style">
+  <div *ngIf="loading" class="spinner">
+      <mat-progress-spinner 
+      class="example-margin"
+      [color]="'accent'"
+      [mode]="'indeterminate'"
+      [diameter]="50">
+      </mat-progress-spinner>
+  </div>
+  <table *ngIf="!loading" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+ 
+    
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container> 
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="name" class="column-mgn">
+      <th mat-header-cell *matHeaderCellDef  class="column-mgn"> Titulo </th>
+      <td mat-cell *matCellDef="let element"  class="column-mgn"> {{element.name}} </td>
+    </ng-container>
+  
      
- 
+    <!-- ESTO SACARLO y QUE LO VEA EN DETALLES
+      <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+      <td mat-cell *matCellDef="let element"> 
+        <button (click)="editListItem(element['ID'])" mat-raised-button class="info-btn">
+          {{element.description}} 
+      </td>
+      
+    </ng-container>
+    -->
 
-     <div class="text-style" *ngIf="haveLists">
-        <table mat-table
-            [dataSource]="dataSource" multiTemplateDataRows
-            class="mat-elevation-z8">
-             
- 
-          <ng-container matColumnDef="Nombre">
-              <th mat-header-cell *matHeaderCellDef> Nombre </th>
-              <td mat-cell *matCellDef="let element"> {{element['name']}} </td>
-          </ng-container>  
-          <!-- 
-          <ng-container matColumnDef="Codigo">
-            <th mat-header-cell *matHeaderCellDef> Codigo </th>
-            <td mat-cell *matCellDef="let element"> {{element['invite_code']}}</td>
-          </ng-container> 
-          -->
-            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-            <ng-container matColumnDef="expandedDetail">
-                <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-                  <div class="example-element-detail"
-                      [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                      
-                    <span class="example-element-description-attribution"> Descripcion </span>
-                      <div class="example-element-description">
-                        {{element['description']}} 
-                      </div>
-                  </div>
-                  <div class="example-element-detail"
-                      [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                      
-                    <span class="example-element-description-attribution"> Copiar codigo de invitación </span>
-                      <div class="example-element-description">  
-                        <button  title="Hacé click para copiar el codigo al portapapeles" mat-raised-button color="primary" [cdkCopyToClipboard]="element['invite_code']"> <mat-icon class="icon-display"> content_copy </mat-icon> </button> 
-                      </div>
-                  </div>
 
-                  <div class="example-element-detail"
-                      [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                      
-                    <!--<span class="example-element-description-attribution"> Acciones </span>-->
-                      <div class="example-element-description">
-                      
-                      <br>
-                      <button mat-raised-button color="accent" [disabled]="loading" (click)="getList(element['ID'])">Ver lista</button> 
-                      <br>
-                      <br>
-                      <button mat-raised-button color="warn" [disabled]="loading" (click)="deleteList(element['ID'])">Eliminar lista</button>
-                      </div>
-                  </div>
-                </td>
-            </ng-container>
-            <!-- Estos son los headers de la tabla-->
-            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-            <!-- Esto es el row basicamente, el body de la tabla por linea-->
-            <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-                class="example-element-row"
-                [class.example-expanded-row]="expandedElement === element"
-                (click)="expandedElement = expandedElement === element ? null : element">
-            </tr>
-            <!-- Esto es el row cuando hago click aparcece-->
-            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-             
-        </table>
-     </div>
+    <ng-container matColumnDef="inviteCode">
+      
+        <th mat-header-cell *matHeaderCellDef>
+         <span>Cod. Invit</span>
+        </th> 
+
+      <td mat-cell *matCellDef="let element">
+        <!-- <button  title="Hacé click para copiar el codigo al portapapeles" mat-raised-button color="primary" [cdkCopyToClipboard]="element['invite_code']"> <mat-icon class="icon-display" [cdkCopyToClipboard]="element['invite_code']"> content_copy </mat-icon> </button> -->
+        <mat-icon class="icon-display" [cdkCopyToClipboard]="element['invite_code']"> content_copy </mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="viewList">
+      <th mat-header-cell *matHeaderCellDef> Detalle </th>
+      <td mat-cell *matCellDef="let element"> 
+        <!-- <button (click)="editListItem(element['ID'])" mat-raised-button class="info-btn">-->
+          <!-- <button mat-raised-button class="info-btn"> 
+          <mat-icon class="icon-size">info_outline</mat-icon>
+        </button> --> 
+          <mat-icon class="icon-size" (click)="getList(element.ID)">info_outline</mat-icon> 
+        
+      </td>
+      
+    </ng-container>
+ 
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        (click)="selection.toggle(row)">
+    </tr>
+  </table>
+</div>
 </div>

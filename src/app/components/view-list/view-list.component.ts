@@ -1,11 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { SelectionModel } from '@angular/cdk/collections'; 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { ListItemService } from 'src/app/services/list-items/list-item.service';
+import { Component, OnInit  } from '@angular/core'; 
+import { MatSnackBar } from '@angular/material/snack-bar'; 
+import { ActivatedRoute, Router } from '@angular/router';
 import { ListsService } from 'src/app/services/lists/lists.service';
-
+import { ListItemService } from 'src/app/services/list-items/list-item.service'
+  
 export  interface ListItem {
   ID: any
   CreatedAt : any
@@ -14,7 +15,8 @@ export  interface ListItem {
   title : any
   description : any
   is_done : boolean
-}
+}  
+
 @Component({
   selector: 'app-view-list',
   templateUrl: './view-list.component.html',
@@ -26,17 +28,21 @@ export  interface ListItem {
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
-})
-export class ViewListComponent implements OnInit {
+}) 
+export class ViewListComponent implements OnInit{
+  
+  displayedColumns: string[] = ['select', 'name', 'symbol', 'isDone'];
+  //dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  selection = new SelectionModel<ListItem>(true, []);
+  loading : boolean = true 
+  updating : boolean = false
+  dataSource : ListItem[]= [] 
+  listName : string = "Titulo no disponible"
+  listDescription : string = "Descripción no disponible"
+
+  constructor(private route : ActivatedRoute, private router : Router, private listService : ListsService, private _snackBar: MatSnackBar, 
+    private listItemService : ListItemService){
     
-  columnsToDisplay: string[] = ['title'];
-  listItems : ListItem[] = []
-  expandedElement: ListItem | null | undefined; 
-  dataSource : ListItem[]= []
-  loading : Boolean = true
-
-  constructor(private listService : ListsService, private router : Router, private route : ActivatedRoute, private _snackBar: MatSnackBar, private listItemService : ListItemService) { 
-
     this.dataSource=  []
     const listID = this.route.snapshot.paramMap.get('listId');
     if (listID == null ){
@@ -51,98 +57,46 @@ export class ViewListComponent implements OnInit {
     }
   }
 
+
   ngOnInit(): void {
   }
 
-  createItem(){
-    console.log("Entre al createItem method!");
-    const listID = this.route.snapshot.paramMap.get('listId');
-    this.router.navigate(['app/new-task/', listID])
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.length;
+    return numSelected === numRows;
   }
 
-  editListItem(id : any){
-    console.log("entre al editListItem with listID: ", id)
-    this.loading = true
-
-    const listID = this.route.snapshot.paramMap.get('listId');
-    if (listID == null ){
-      this.loading = false
-      this.dataSource = []
-      this._snackBar.open("No es posible recuperar la tarea. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
-        duration: 7000,
-        panelClass: 'red-snackbar'
-      });
-    } else {
-      this.loading = false
-      this.router.navigate(['app/edit-task/', listID, id])
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
     }
-
-    
+   this.selection.select(...this.dataSource); 
   }
 
-  deleteListItem(id : any){
-    this.loading = true
-    console.log("entre al deleteListItem with listID: ", id)
-    this.listItemService.deleteListItemByID(id).subscribe( resp => {
-        console.log("Deleted listItem withID: ", resp)
-        const listID = this.route.snapshot.paramMap.get('listId');
-    if (listID == null ){
-      this.loading = false
-      this.dataSource = []
-      this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
-        duration: 7000,
-        panelClass: 'red-snackbar'
-      });
-    } else {
-      this.loading = false
-      this.getListItems(listID)
-      this._snackBar.open("Se eliminó la tarea", "Cerrar", {
-        duration: 7000,
-        panelClass: 'green-snackbar'
-      });
-    }
-    }, (err: HttpErrorResponse)=>{
-      this.loading = false
-      console.log("Error when deleting listItem. Status code: ", err.status)
-      //this.loading = false
-      if (err.status == 401) {
-        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      }  else if (err.status == 400){
-        this._snackBar.open("Ocurrió un error al intentar eliminar la tarea deseada. Si el error persiste comuniquese con el adminstrador.", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      }
-      else if(err.status == 404 ){
-        this._snackBar.open("La tarea no existe! Si el error persiste comuniquese con el administrador.", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        });
-      } else {
-        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
-          duration: 7000,
-          panelClass: 'red-snackbar'
-        })
-      }
-    })
+  /** The label for the checkbox on the passed row */
+  //checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: ListItem): string {
+    if (!row) {  
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }   
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.ID}`;
   }
 
-  returnToMyLists(){
-    console.log("Returning to my lists");
-    this.router.navigate(['app/lists'])
-  }
+
+  //FIN NUEVO table view
+ 
 
   getListItems(listID : any){
     this.listService.getListByID(listID).subscribe(response => {
-
-      this.listItems = response.list_items
-      this.dataSource = this.listItems
+      this.listName = response.name
+      this.listDescription = response.description
+      this.dataSource = response.list_items
       this.loading = false;
-    }, (err : HttpErrorResponse)=> {
-      console.log("Status code es: ", err.status)
+    }, (err : HttpErrorResponse)=> { 
       this.loading = false
       if (err.status == 401) {
         
@@ -165,12 +119,203 @@ export class ViewListComponent implements OnInit {
     })
   }
 
+  createItem(){ 
+    const listID = this.route.snapshot.paramMap.get('listId');
+    this.router.navigate(['app/new-task/', listID])
+  }
+
+  editListItem(id : any){ 
+    this.updating = true
+
+    const listID = this.route.snapshot.paramMap.get('listId');
+    if (listID == null ){
+      this.updating = false
+      this.dataSource = []
+      this._snackBar.open("No es posible recuperar la tarea. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
+        duration: 7000,
+        panelClass: 'red-snackbar'
+      });
+    } else {
+      this.updating = false
+      this.router.navigate(['app/edit-task/', listID, id])
+    } 
+  }
+
+  get selectionIsEmpty(){ 
+    var selectedLists = this.selection.selected
+    if (selectedLists.length>0){
+      return false
+    } else {
+      return true
+    }
+  }
+
+
+  deleteTasks(){
+    console.log("Will delete the next tasks: ", this.selection.selected)
+    
+    var listItemsToDelete = this.selection.selected
+
+    this.updating = true
+
+    //TODO validar que no este vacia if (this)
+
+    this.listItemService.deleteListsItems(listItemsToDelete).subscribe(resp =>{
+
+      const listID = this.route.snapshot.paramMap.get('listId');
+      if (listID == null ){
+        this.updating = false
+        this.dataSource = []
+        this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this.getListItems(listID)
+        this.updating = false
+      }
+      
+      this._snackBar.open("Tareas eliminadas exitosamente", "Cerrar", {
+        duration: 12000,
+        panelClass: 'green-snackbar'
+      });
+
+    }, (err: HttpErrorResponse) => {
+      this.loading = false
+      if (err.status == 401) {
+        
+        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  
+      else if(err.status == 404 ){
+        this._snackBar.open("La tarea no existe!", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
+    })
+
+  }
+
+  markAsCompleted(){
+    console.log("Will delete the next tasks: ", this.selection.selected)
+    var listItemsToMarkAsCompleted = this.selection.selected
+ 
+
+    this.updating = true
+
+    //TODO validar que no este vacia if (this)
+
+    this.listItemService.markListItemsAsCompleted(listItemsToMarkAsCompleted).subscribe(resp =>{
+
+      const listID = this.route.snapshot.paramMap.get('listId');
+      if (listID == null ){
+        this.updating = false
+        this.dataSource = []
+        this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this.selection.clear()
+        this.getListItems(listID)
+        this.updating = false
+      }
+      
+      this._snackBar.open("Tarea completada", "Cerrar", {
+        duration: 12000,
+        panelClass: 'green-snackbar'
+      });
+
+    }, (err: HttpErrorResponse) => {
+      this.updating = false
+      if (err.status == 401) {
+        
+        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  
+      else if(err.status == 404 ){
+        this._snackBar.open("La tarea no se pudo actualizar", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
+    })
+  }
+
+  markAsPending(){
+    console.log("Will delete the next tasks: ", this.selection.selected)
+    var listItemsToMarkAsPending = this.selection.selected
+    this.updating = true
+
+    //TODO validar que no este vacia if (this)
+
+    this.listItemService.markListItemsAsPending(listItemsToMarkAsPending).subscribe(resp =>{
+
+      const listID = this.route.snapshot.paramMap.get('listId');
+      if (listID == null ){
+        this.updating = false
+        this.dataSource = []
+        this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this.selection.clear()
+        this.getListItems(listID)
+        this.updating = false
+      }
+      
+      this._snackBar.open("Tareas pendiente", "Cerrar", {
+        duration: 12000,
+        panelClass: 'green-snackbar'
+      });
+
+    }, (err: HttpErrorResponse) => {
+      this.loading = false
+      if (err.status == 401) {
+        
+        this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      }  
+      else if(err.status == 404 ){
+        this._snackBar.open("La tarea no se pudo actualizar", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        });
+      } else {
+        this._snackBar.open("Ocurrio un error inesperado. Intente mas tarde", "Cerrar", {
+          duration: 7000,
+          panelClass: 'red-snackbar'
+        })
+      }
+    })
+    
+  }
+
   get haveTasks() : Boolean{
-    if (this.listItems == null || this.listItems.length < 1){
+    if (this.dataSource == null || this.dataSource.length < 1){
       return false;
     } else {
       return true;
     }
   }
+
 
 }
