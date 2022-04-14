@@ -20,6 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatCheckboxModule  } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './components/home/home.component';
@@ -68,6 +69,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     MatCheckboxModule,
     MatTableModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
