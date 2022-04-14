@@ -63,4 +63,15 @@ input{
 mat-form-field {
     width: 100%;
 }
+
+.btn-margins {
+    margin-right: 5px;
+    margin-top: 5px;
+} 
   
+.spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+}

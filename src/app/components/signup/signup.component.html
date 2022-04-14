@@ -44,10 +44,18 @@
          </div>
  
  
-         <mat-card-actions class="pt-1 pb-1"> 
-             <button mat-raised-button (click)="signup()" [disabled]="isPristine || loading || !fullCompleted">Crear cuenta</button> 
-             <button mat-stroked-button (click)="login()">Iniciar sesion</button> 
-         </mat-card-actions>
+          <div *ngIf="!creatingAccount">
+             <button mat-raised-button color="primary" (click)="signup()" [disabled]="isPristine || loading || !fullCompleted || creatingAccount" class="btn-margins">Crear cuenta</button> 
+             <button mat-stroked-button (click)="login()" class="btn-margins">Iniciar sesion</button> 
+         </div>
+         <div *ngIf="creatingAccount" class="spinner">
+            <mat-progress-spinner 
+            class="example-margin"
+            [color]="'accent'"
+            [mode]="'indeterminate'"
+            [diameter]="30">
+            </mat-progress-spinner>
+        </div>
     </mat-card>
  
  </div>

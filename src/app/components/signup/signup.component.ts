@@ -15,6 +15,7 @@ export class SignupComponent implements OnInit {
 
   signUpForm!: FormGroup; 
   loading : boolean = false 
+  creatingAccount = false;
   fullCompleted : boolean = true
   showPassword : boolean = false
   inputPasswordFieldType = "password"
@@ -77,14 +78,14 @@ export class SignupComponent implements OnInit {
   }
 
   signup(){
-    this.loading = true
+    this.creatingAccount = true
     console.log("Click on signUp button")
     const name = this.signUpForm.get('name')?.value
     const email = this.signUpForm.get('email')?.value
     const password = this.signUpForm.get('password')?.value
 
     if (email == null || password == null || name == null) {
-      this.loading = false
+      this.creatingAccount = false
       this._snackBar.open("Complete todos los campos", "Cerrar", {
         duration: 7000,
         panelClass: 'red-snackbar'
@@ -103,7 +104,7 @@ export class SignupComponent implements OnInit {
     this.signUpService.signUp(signUpRequest).
     subscribe(apiResponse => {  
       console.log(apiResponse)
-      this.loading = false 
+      this.creatingAccount = false 
       this.signUpForm.reset()
       this.signUpForm.markAsPristine() 
 
@@ -112,7 +113,7 @@ export class SignupComponent implements OnInit {
         panelClass: 'green-snackbar'
       });
     },  (err:HttpErrorResponse)=>{
-      this.loading = false
+      this.creatingAccount = false
       console.log("Status code es: ", err.status)
 
       if (err.status == 400) {
