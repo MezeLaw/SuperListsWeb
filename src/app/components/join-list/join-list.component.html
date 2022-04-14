@@ -19,11 +19,10 @@
                
               </form>
            </div>
-    
-           <mat-card-actions class="pt-1 pb-1"> 
-               <button mat-raised-button (click)="jointoList()" [disabled]="isPristine || loading || !fullCompleted">Unirse</button> 
-               <button mat-stroked-button (click)="returnToLists()">Volver a mis listas</button> 
-           </mat-card-actions>
+           <div class="text-style">
+               <button mat-raised-button (click)="jointoList()" [disabled]="isPristine || loading || !fullCompleted" class="btn-margins join-btn">Unirse</button> 
+               <button mat-stroked-button (click)="returnToLists()" class="btn-margins return-btn">Volver a mis listas</button> 
+           </div>
       </mat-card>
    
    </div>

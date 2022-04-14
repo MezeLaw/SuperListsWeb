@@ -27,11 +27,12 @@
                
               </form>
            </div>
-    
-           <mat-card-actions class="pt-1 pb-1"> 
-               <button mat-raised-button [disabled]="isPristine || loading || !fullCompleted" (click)="createListItem()">Crear tarea</button> 
-               <button mat-stroked-button (click)="returnToList()">Volver a la lista</button> 
-           </mat-card-actions>
+
+           <div>
+            <button mat-raised-button [disabled]="isPristine || loading || !fullCompleted" (click)="createListItem()" class="btn-margins add-btn">Crear tarea</button> 
+            <button mat-stroked-button (click)="returnToList()" class="btn-margins return-btn">Volver a la lista</button> 
+           </div>
+
       </mat-card>
    
    </div>

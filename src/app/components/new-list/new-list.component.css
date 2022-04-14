@@ -64,3 +64,22 @@ mat-form-field {
     width: 100%;
 }
   
+.btn-margins {
+    margin-right: 5px;
+    margin-top: 5px;
+} 
+
+.text-style {
+    margin-top:1px;
+    margin-bottom: 1px;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.add-btn{
+    background-color:green;
+}
+    
+.return-btn {
+    background-color: red;
+}  

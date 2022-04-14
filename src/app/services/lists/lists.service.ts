@@ -141,6 +141,24 @@ export class ListsService {
     return this.http.post<List>(`${this.baseURL}joinList/${inviteCode}`, null, {headers : headers})
   }
 
+  deleteLists(listsToDelete : List[]){
+    var token  = localStorage.getItem('token')
+
+    if( token == null ){
+      token = "invalidToken"
+    }
+
+    const decodedToken : DecodedToken = this.jwtHelper.decodeToken(token);
+    
+ 
+    var email : any = decodedToken.Email 
+    var userId : any = decodedToken.UserID
+  
+    let headers = new HttpHeaders({ "token" : token, "user_id": userId });
+ 
+ 
+    return this.http.post<number>(`${this.baseURL}bulkDelete`, listsToDelete, {headers : headers} );
+  }
    
 
 }

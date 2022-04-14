@@ -63,3 +63,16 @@ input{
 mat-form-field {
     width: 100%;
 }
+
+.save-btn{
+    background-color:green;
+}
+    
+.return-btn {
+    background-color: red;
+}  
+
+.btn-margins {
+    margin-right: 5px;
+    margin-top: 5px;
+} 

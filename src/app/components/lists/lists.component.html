@@ -28,8 +28,8 @@
             <mat-icon>playlist_add</mat-icon> Unirse a lista
       </button>
 
-      <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty || loading"  class="demo-button btn-margins">
-          <mat-icon class="icon-size" >delete </mat-icon> Eliminar lista
+      <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty || loading" (click)="deleteLists()" class="demo-button btn-margins">
+          <mat-icon class="icon-size" >delete </mat-icon> Eliminar listas
       </button>
     
       <hr>
