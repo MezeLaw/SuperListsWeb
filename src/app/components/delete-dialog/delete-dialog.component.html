@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Confirmar</h1>
+<div mat-dialog-content>
+  <p>¿Está seguro que desea eliminar la/las listas?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true" cdkFocusInitial>Eliminar</button>
+</div>

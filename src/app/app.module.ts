@@ -37,6 +37,7 @@ import { TaskIsCompletedPipe } from './pipes/task-is-completed.pipe';
 import { AddListItemComponent } from './components/add-list-item/add-list-item.component';
 import { EditListItemComponent } from './components/edit-list-item/edit-list-item.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     JoinListComponent,
     TaskIsCompletedPipe,
     AddListItemComponent,
-    EditListItemComponent
+    EditListItemComponent,
+    DeleteDialogComponent
   ],
   imports: [
     MatButtonModule,

@@ -24,11 +24,11 @@
       
       <button
             mat-raised-button 
-            class="demo-button" [disabled]="loading" (click)="joinListByCode()" class="demo-button join-btn">
+            class="demo-button" [disabled]="loading" (click)="joinListByCode()" class="demo-button join-btn btn-margins">
             <mat-icon>playlist_add</mat-icon> Unirse a lista
       </button>
 
-      <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty || loading" (click)="deleteLists()" class="demo-button btn-margins">
+      <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty || loading" (click)="deleteListsDialog()" class="demo-button btn-margins">
           <mat-icon class="icon-size" >delete </mat-icon> Eliminar listas
       </button>
     

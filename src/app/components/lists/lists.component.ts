@@ -6,6 +6,7 @@ import { ListsService } from 'src/app/services/lists/lists.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SelectionModel } from '@angular/cdk/collections';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 
 export interface List { 
@@ -195,5 +196,16 @@ export class ListsComponent implements OnInit {
         })
       }
     })
+  }
+
+  deleteListsDialog(){
+    const dialogRef = this.dialog.open(DeleteDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.deleteLists()
+      }
+    });
   }
 }
