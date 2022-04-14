@@ -18,8 +18,8 @@
     </div>
 
     <div class="demo-button-container text-style">
-        <button mat-raised-button [disabled]="loading" class="demo-button add-btn btn-margins">
-          <mat-icon (click)="createItem()">add</mat-icon> Nueva tarea
+        <button mat-raised-button [disabled]="loading" class="demo-button add-btn btn-margins" (click)="createItem()">
+          <mat-icon>add</mat-icon> Nueva tarea
         </button>
         
         <button mat-raised-button  color="warn" [disabled]="selectionIsEmpty || loading" (click)="deleteTasks()" class="demo-button btn-margins">
