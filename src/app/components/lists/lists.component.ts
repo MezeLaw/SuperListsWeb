@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ListsService } from 'src/app/services/lists/lists.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 export interface List { 
@@ -33,13 +34,15 @@ export interface List {
     ]),
   ],
 })
-export class ListsComponent implements OnInit { 
-  columnsToDisplay: string[] = ['Nombre'];
+export class ListsComponent implements OnInit {  
   lists : List[] = []
   expandedElement: List | null | undefined;
   //dataSource = ELEMENT_DATA;
   dataSource = this.lists;
   loading = true
+  displayedColumns: string[] = ['select', 'name', 'inviteCode', 'viewList'];
+  selection = new SelectionModel<List>(true, []);
+
 
   constructor(private listService : ListsService, public dialog: MatDialog, private router : Router, private _snackBar: MatSnackBar) {
 
@@ -54,9 +57,7 @@ export class ListsComponent implements OnInit {
     console.log("Will go to new list form")
     this.router.navigate(['app/new-list'])
   }
-
-  ngOnInit(): void {
-  }
+ 
 
   getList(id : any){
     console.log("ID recibido: ", id) 
@@ -152,7 +153,52 @@ export class ListsComponent implements OnInit {
     }
   }
 
+
+  // Cosas tabla nueva
+
+  ngOnInit(): void {
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+   this.selection.select(...this.dataSource); 
+  }
+
+  /** The label for the checkbox on the passed row */
+  //checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: List): string {
+    if (!row) {  
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }   
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.ID}`;
+  }
   
- 
+  get selectionIsEmpty(){ 
+    var selectedLists = this.selection.selected
+    if (selectedLists.length>0){
+      return false
+    } else {
+      return true
+    }
+  }
+
+  get haveTasks() : Boolean{
+    if (this.dataSource == null || this.dataSource.length < 1){
+      return false;
+    } else {
+      return true;
+    }
+  }
    
 }

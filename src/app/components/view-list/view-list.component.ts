@@ -6,14 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ListsService } from 'src/app/services/lists/lists.service';
 import { ListItemService } from 'src/app/services/list-items/list-item.service'
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-} 
-
+  
 export  interface ListItem {
   ID: any
   CreatedAt : any
@@ -22,21 +15,7 @@ export  interface ListItem {
   title : any
   description : any
   is_done : boolean
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Comprar pastafrola de membrillo x2', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
-
+}  
 
 @Component({
   selector: 'app-view-list',
@@ -57,7 +36,8 @@ export class ViewListComponent implements OnInit{
   selection = new SelectionModel<ListItem>(true, []);
   loading : boolean = true 
   dataSource : ListItem[]= [] 
-
+  listName : string = "Titulo no disponible"
+  listDescription : string = "Descripción no disponible"
 
   constructor(private route : ActivatedRoute, private router : Router, private listService : ListsService, private _snackBar: MatSnackBar, 
     private listItemService : ListItemService){
@@ -111,7 +91,8 @@ export class ViewListComponent implements OnInit{
 
   getListItems(listID : any){
     this.listService.getListByID(listID).subscribe(response => {
- 
+      this.listName = response.name
+      this.listDescription = response.description
       this.dataSource = response.list_items
       this.loading = false;
     }, (err : HttpErrorResponse)=> { 
