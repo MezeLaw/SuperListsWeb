@@ -98,7 +98,7 @@ export class EditListItemComponent implements OnInit {
   createEditListItemForm(){
     this.editListItemForm = this.fb.group({ 
       title: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       isDone: [Boolean, Validators.required]
     })
   }

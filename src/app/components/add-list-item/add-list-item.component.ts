@@ -36,7 +36,7 @@ export class AddListItemComponent implements OnInit {
 
     this.newListItemForm = this.fb.group({
       title: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['']
     })
 
     this.newListItemForm.markAsPristine
@@ -56,7 +56,7 @@ export class AddListItemComponent implements OnInit {
 
 
 isValidForm(e:any){  
-  if(this.newListItemForm.get('name')?.value != "" && this.newListItemForm.get('description')?.value != ""){ 
+  if(this.newListItemForm.get('name')?.value != ""){ 
     this.fullCompleted = true
   } else { 
     this.fullCompleted = false
