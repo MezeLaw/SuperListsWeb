@@ -35,6 +35,7 @@ export class ViewListComponent implements OnInit{
   //dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<ListItem>(true, []);
   loading : boolean = true 
+  updating : boolean = false
   dataSource : ListItem[]= [] 
   listName : string = "Titulo no disponible"
   listDescription : string = "Descripción no disponible"
@@ -124,18 +125,18 @@ export class ViewListComponent implements OnInit{
   }
 
   editListItem(id : any){ 
-    this.loading = true
+    this.updating = true
 
     const listID = this.route.snapshot.paramMap.get('listId');
     if (listID == null ){
-      this.loading = false
+      this.updating = false
       this.dataSource = []
       this._snackBar.open("No es posible recuperar la tarea. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
         duration: 7000,
         panelClass: 'red-snackbar'
       });
     } else {
-      this.loading = false
+      this.updating = false
       this.router.navigate(['app/edit-task/', listID, id])
     } 
   }
@@ -155,7 +156,7 @@ export class ViewListComponent implements OnInit{
     
     var listItemsToDelete = this.selection.selected
 
-    this.loading = true
+    this.updating = true
 
     //TODO validar que no este vacia if (this)
 
@@ -163,7 +164,7 @@ export class ViewListComponent implements OnInit{
 
       const listID = this.route.snapshot.paramMap.get('listId');
       if (listID == null ){
-        this.loading = false
+        this.updating = false
         this.dataSource = []
         this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
           duration: 7000,
@@ -171,6 +172,7 @@ export class ViewListComponent implements OnInit{
         });
       } else {
         this.getListItems(listID)
+        this.updating = false
       }
       
       this._snackBar.open("Tareas eliminadas exitosamente", "Cerrar", {
@@ -207,7 +209,7 @@ export class ViewListComponent implements OnInit{
     var listItemsToMarkAsCompleted = this.selection.selected
  
 
-    this.loading = true
+    this.updating = true
 
     //TODO validar que no este vacia if (this)
 
@@ -215,7 +217,7 @@ export class ViewListComponent implements OnInit{
 
       const listID = this.route.snapshot.paramMap.get('listId');
       if (listID == null ){
-        this.loading = false
+        this.updating = false
         this.dataSource = []
         this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
           duration: 7000,
@@ -224,6 +226,7 @@ export class ViewListComponent implements OnInit{
       } else {
         this.selection.clear()
         this.getListItems(listID)
+        this.updating = false
       }
       
       this._snackBar.open("Tarea completada", "Cerrar", {
@@ -232,7 +235,7 @@ export class ViewListComponent implements OnInit{
       });
 
     }, (err: HttpErrorResponse) => {
-      this.loading = false
+      this.updating = false
       if (err.status == 401) {
         
         this._snackBar.open("Su sesión venció. Ingrese nuevamente al sistema.", "Cerrar", {
@@ -257,7 +260,7 @@ export class ViewListComponent implements OnInit{
   markAsPending(){
     console.log("Will delete the next tasks: ", this.selection.selected)
     var listItemsToMarkAsPending = this.selection.selected
-    this.loading = true
+    this.updating = true
 
     //TODO validar que no este vacia if (this)
 
@@ -265,7 +268,7 @@ export class ViewListComponent implements OnInit{
 
       const listID = this.route.snapshot.paramMap.get('listId');
       if (listID == null ){
-        this.loading = false
+        this.updating = false
         this.dataSource = []
         this._snackBar.open("No es posible recuperar la lista. Si el error persiste comuniquese con el adminsitrador.", "Cerrar", {
           duration: 7000,
@@ -274,6 +277,7 @@ export class ViewListComponent implements OnInit{
       } else {
         this.selection.clear()
         this.getListItems(listID)
+        this.updating = false
       }
       
       this._snackBar.open("Tareas pendiente", "Cerrar", {

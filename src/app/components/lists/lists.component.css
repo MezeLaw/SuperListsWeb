@@ -63,3 +63,9 @@ margin-top: 5px;
 .list-item-pending {
 background-color:red;
 }
+
+.spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

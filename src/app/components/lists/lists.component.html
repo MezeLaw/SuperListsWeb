@@ -35,7 +35,15 @@
       <hr>
   </div> 
   <div class="text-style">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <div *ngIf="loading" class="spinner">
+      <mat-progress-spinner 
+      class="example-margin"
+      [color]="'accent'"
+      [mode]="'indeterminate'"
+      [diameter]="50">
+      </mat-progress-spinner>
+  </div>
+  <table *ngIf="!loading" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
  
     
     <ng-container matColumnDef="select">

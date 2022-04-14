@@ -1,7 +1,15 @@
 <body class="animate__animated animate__fadeIn"> 
-  
+    
+    <div *ngIf="loading" class="spinner">
+        <mat-progress-spinner 
+        class="example-margin"
+        [color]="'accent'"
+        [mode]="'indeterminate'"
+        [diameter]="50">
+        </mat-progress-spinner>
+    </div>
 
-    <div class="content" role="main">
+    <div *ngIf="!loading" class="content" role="main">
     
       <mat-card class="card-color card-size card-align">
           
@@ -31,10 +39,18 @@
               </form>
            </div>
            
-           <div>
+           <div *ngIf="!updating">
                <button mat-raised-button [disabled]="!validTitle || !validDescription || loading || isPristine" (click)="updateListItem()" class="btn-margins save-btn">Guardar cambios</button> 
                <button mat-stroked-button (click)="returnToList()" class="btn-margins return-btn">Volver a la lista</button> 
             </div>
+                <div *ngIf="updating" class="spinner">
+                    <mat-progress-spinner 
+                    class="example-margin"
+                    [color]="'accent'"
+                    [mode]="'indeterminate'"
+                    [diameter]="30">
+                    </mat-progress-spinner>
+                </div>
       </mat-card>
    
    </div>

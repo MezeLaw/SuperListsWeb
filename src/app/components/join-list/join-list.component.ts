@@ -12,6 +12,7 @@ import { ListsService } from 'src/app/services/lists/lists.service';
 })
 export class JoinListComponent implements OnInit {
   loading = false
+  joining = false
   joinListForm!: FormGroup; 
   fullCompleted : boolean = false
   
@@ -23,24 +24,22 @@ export class JoinListComponent implements OnInit {
   }
 
   jointoList(){
-    this.loading = true
+    this.joining = true
     const inviteCode = this.joinListForm.get('code')?.value
-    console.log("JOIN TO LIST WITH CODE: ", )
     this.listService.joinList(inviteCode).subscribe(resp => {
       
       this.joinListForm.reset()
       this.joinListForm.markAsPristine() 
-
-      console.log("Volvi del join list con la siguiente rta: ", resp) 
+ 
       this._snackBar.open("Te uniste exitosamente a la lista", "Cerrar", {
         duration: 12000,
         panelClass: 'green-snackbar'
       });
 
-      this.loading = false
+      this.joining = false
     }, (err: HttpErrorResponse) => {
       console.log("Error from service on join list: ", err)
-      this.loading = false
+      this.joining = false
       console.log("Status code es: ", err.status)
 
       if (err.status == 400) {
